@@ -1,0 +1,37 @@
+project_id = "ai-la-gian-diep-dathoineee"
+
+[functions.create-room]
+verify_jwt = false
+
+[functions.join-room]
+verify_jwt = false
+
+[functions.leave-room]
+verify_jwt = false
+
+[functions.update-ready-status]
+verify_jwt = false
+
+[functions.start-round]
+verify_jwt = false
+
+[functions.start-next-round]
+verify_jwt = false
+
+[functions.get-my-assignment]
+verify_jwt = false
+
+[functions.acknowledge-assignment]
+verify_jwt = false
+
+[functions.start-discussion]
+verify_jwt = false
+
+[functions.end-discussion]
+verify_jwt = false
+
+[functions.room-presence]
+verify_jwt = false
+
+[functions.admin-manage-word-pairs]
+verify_jwt = false
