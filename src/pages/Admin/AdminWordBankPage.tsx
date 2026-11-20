@@ -28,6 +28,81 @@ import {
 import { formatDifficultyLabel, WORD_CATEGORIES_META } from "../../utils/avatars";
 import type { Difficulty, WordCategory, WordPair } from "../../types/game";
 
+const CATEGORY_LOOKUP: Record<string, WordCategory> = {
+  "động vật": "Động vật",
+  "đồ ăn": "Đồ ăn",
+  "đồ vật": "Đồ vật",
+  "địa điểm": "Địa điểm",
+  "nghề nghiệp": "Nghề nghiệp",
+  "giải trí": "Giải trí",
+  "thể thao": "Thể thao",
+  "khác": "Khác",
+};
+
+const DIFFICULTY_LOOKUP: Record<string, Difficulty> = {
+  "dễ": "easy",
+  "de": "easy",
+  "easy": "easy",
+  "trung bình": "medium",
+  "trung binh": "medium",
+  "medium": "medium",
+  "khó": "hard",
+  "kho": "hard",
+  "hard": "hard",
+};
+
+function parseBulkWordPairsInput(raw: string): WordPairFormInput[] {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    throw new Error("Vui lòng dán dữ liệu từ khóa.");
+  }
+
+  // Hỗ trợ cả JSON lẫn định dạng 4 dòng cách nhau bởi dòng trống
+  if (trimmed.startsWith("[")) {
+    const json = JSON.parse(trimmed);
+    if (!Array.isArray(json)) {
+      throw new Error("Dữ liệu JSON phải là một mảng danh sách.");
+    }
+    return json;
+  }
+
+  const blocks = trimmed
+    .split(/\r?\n\s*\r?\n+/)
+    .map((b) =>
+      b
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+    )
+    .filter((lines) => lines.length > 0);
+
+  return blocks.map((lines, idx) => {
+    if (lines.length < 4) {
+      throw new Error(
+        `Khối thứ ${idx + 1} chưa đủ 4 dòng (Danh mục / Civilian / Undercover / Độ khó).`
+      );
+    }
+    const category = CATEGORY_LOOKUP[lines[0].toLowerCase()];
+    if (!category) {
+      throw new Error(`Khối ${idx + 1}: Danh mục "${lines[0]}" không hợp lệ.`);
+    }
+    const difficulty = DIFFICULTY_LOOKUP[lines[3].toLowerCase()];
+    if (!difficulty) {
+      throw new Error(
+        `Khối ${idx + 1}: Độ khó "${lines[3]}" phải là Dễ, Trung bình hoặc Khó.`
+      );
+    }
+    return {
+      category,
+      civilian_word: lines[1],
+      undercover_word: lines[2],
+      difficulty,
+      note: lines[4] ?? "",
+      is_active: true,
+    };
+  });
+}
+
 const EMPTY_FORM: WordPairFormInput = {
   category: "Động vật",
   civilian_word: "",
@@ -201,14 +276,10 @@ export const AdminWordBankPage: React.FC = () => {
     e.preventDefault();
     let parsed: WordPairFormInput[];
     try {
-      const json = JSON.parse(importText);
-      if (!Array.isArray(json)) {
-        throw new Error("Dữ liệu JSON phải là một mảng danh sách.");
-      }
-      parsed = json;
+      parsed = parseBulkWordPairsInput(importText);
     } catch (err) {
       showToast(
-        err instanceof Error ? err.message : "JSON không đúng định dạng.",
+        err instanceof Error ? err.message : "Dữ liệu nhập chưa đúng định dạng.",
         "error"
       );
       return;
@@ -541,29 +612,44 @@ export const AdminWordBankPage: React.FC = () => {
         </form>
       </Modal>
 
-      {/* Modal Nhập dữ liệu JSON */}
+      {/* Modal Nhập dữ liệu hàng loạt (4 dòng hoặc JSON) */}
       <Modal
         open={importOpen}
         onClose={() => setImportOpen(false)}
-        title="📥 NHẬP DỮ LIỆU TỪ KHÓA (JSON)"
+        title="📥 NHẬP TỪ KHÓA HÀNG LOẠT"
       >
         <form onSubmit={handleImportSubmit} className="space-y-3">
-          <p className="text-xs font-semibold">
-            Chọn file <code>.json</code> hoặc dán mảng JSON với các trường:{" "}
-            <code>category</code>, <code>civilian_word</code>,{" "}
-            <code>undercover_word</code>, <code>difficulty</code>, <code>note</code>.
-          </p>
+          <div className="chibi-section-peach p-2.5 text-xs font-semibold space-y-1">
+            <div>
+              <strong>Cách 1 (Khuyên dùng):</strong> Dán từng khối 4 dòng, cách nhau bởi
+              1 dòng trống:
+            </div>
+            <pre className="bg-white/80 rounded-xl p-2 text-[11px] font-mono leading-snug overflow-x-auto">
+{`Động vật
+CON BÒ
+CON TRÂU
+Dễ
+
+Đồ ăn
+PHỞ
+BÚN BÒ
+Trung bình`}
+            </pre>
+            <div>
+              <strong>Cách 2:</strong> Chọn file hoặc dán mảng <code>.json</code>.
+            </div>
+          </div>
           <input
             type="file"
-            accept=".json,application/json"
+            accept=".txt,.json,application/json,text/plain"
             onChange={handleImportFile}
             className="text-xs font-bold"
           />
           <textarea
-            rows={6}
+            rows={7}
             value={importText}
             onChange={(e) => setImportText(e.target.value)}
-            placeholder='[{"category":"Động vật","civilian_word":"CON BÒ","undercover_word":"CON TRÂU","difficulty":"easy","note":""}]'
+            placeholder={`Động vật\nCON BÒ\nCON TRÂU\nDễ`}
             className="w-full rounded-2xl border-2 border-[#552416] p-2.5 text-xs font-mono bg-white text-[#552416]"
           />
           <div className="flex gap-2">
