@@ -1,8 +1,8 @@
 import { handleOptions, jsonResponse, errorResponse } from "../_shared/cors.ts";
 import {
-  ALLOWED_AVATARS,
   getAuthenticatedUser,
   getServiceClient,
+  sanitizeAvatarConfig,
 } from "../_shared/supabase.ts";
 
 Deno.serve(async (req: Request) => {
@@ -21,7 +21,7 @@ Deno.serve(async (req: Request) => {
       .toUpperCase()
       .replace(/[^A-Z0-9]/g, "");
     const nickname = String(body?.nickname ?? "").trim();
-    const avatar = String(body?.avatar ?? "avatar-dino").trim();
+    const avatarInput = String(body?.avatar ?? "avatar-dino").trim();
 
     if (roomCode.length !== 6) {
       return errorResponse("Mã phòng không hợp lệ!", 400, "INVALID_ROOM_CODE");
@@ -29,11 +29,13 @@ Deno.serve(async (req: Request) => {
     if (nickname.length < 1 || nickname.length > 24) {
       return errorResponse("Tên của bạn phải từ 1 đến 24 ký tự.", 400, "INVALID_NICKNAME");
     }
-    if (!ALLOWED_AVATARS.has(avatar)) {
-      return errorResponse("Avatar không hợp lệ.", 400, "INVALID_AVATAR");
-    }
 
     const admin = getServiceClient();
+    const avatarConfig = await sanitizeAvatarConfig(
+      admin,
+      body?.avatar_config,
+      avatarInput
+    );
 
     const { data: room, error: roomErr } = await admin
       .from("rooms")
@@ -61,6 +63,8 @@ Deno.serve(async (req: Request) => {
       await admin
         .from("room_players")
         .update({
+          avatar: avatarConfig.avatarId,
+          avatar_config: avatarConfig,
           is_connected: true,
           last_seen_at: new Date().toISOString(),
         })
@@ -112,7 +116,8 @@ Deno.serve(async (req: Request) => {
       room_id: room.id,
       user_id: user.id,
       nickname,
-      avatar,
+      avatar: avatarConfig.avatarId,
+      avatar_config: avatarConfig,
       is_ready: false,
       is_connected: true,
     });
@@ -131,7 +136,8 @@ Deno.serve(async (req: Request) => {
     await admin.from("profiles").upsert({
       id: user.id,
       display_name: nickname,
-      avatar,
+      avatar: avatarConfig.avatarId,
+      avatar_config: avatarConfig,
       updated_at: new Date().toISOString(),
     });
 

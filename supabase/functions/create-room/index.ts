@@ -1,11 +1,11 @@
 import { handleOptions, jsonResponse, errorResponse } from "../_shared/cors.ts";
 import {
-  ALLOWED_AVATARS,
   ALLOWED_CATEGORIES,
   ALLOWED_DIFFICULTIES,
   generateRoomCode,
   getAuthenticatedUser,
   getServiceClient,
+  sanitizeAvatarConfig,
 } from "../_shared/supabase.ts";
 
 Deno.serve(async (req: Request) => {
@@ -21,7 +21,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const roomName = String(body?.room_name ?? "").trim();
     const nickname = String(body?.nickname ?? "").trim();
-    const avatar = String(body?.avatar ?? "avatar-blue-shades").trim();
+    const avatarInput = String(body?.avatar ?? "avatar-blue-shades").trim();
     const maxPlayers = Number(body?.max_players);
     const undercoverCount = Number(body?.undercover_count);
     const mrWhiteCount = Number(body?.mr_white_count);
@@ -33,9 +33,6 @@ Deno.serve(async (req: Request) => {
     }
     if (nickname.length < 1 || nickname.length > 24) {
       return errorResponse("Biệt danh chủ phòng phải từ 1 đến 24 ký tự.", 400, "INVALID_NICKNAME");
-    }
-    if (!ALLOWED_AVATARS.has(avatar)) {
-      return errorResponse("Avatar không hợp lệ.", 400, "INVALID_AVATAR");
     }
     if (!Number.isInteger(maxPlayers) || maxPlayers < 3 || maxPlayers > 20) {
       return errorResponse("Số lượng người chơi phải từ 3 đến 20.", 400, "INVALID_MAX_PLAYERS");
@@ -62,6 +59,11 @@ Deno.serve(async (req: Request) => {
     }
 
     const admin = getServiceClient();
+    const avatarConfig = await sanitizeAvatarConfig(
+      admin,
+      body?.avatar_config,
+      avatarInput
+    );
 
     // Kiểm tra kho từ khóa có tồn tại ít nhất 1 cặp từ phù hợp (chỉ kiểm tra có/không, không trả số lượng)
     let wordCheck = admin
@@ -131,7 +133,8 @@ Deno.serve(async (req: Request) => {
       room_id: createdRoom.id,
       user_id: user.id,
       nickname,
-      avatar,
+      avatar: avatarConfig.avatarId,
+      avatar_config: avatarConfig,
       is_ready: true,
       is_connected: true,
     });
@@ -143,7 +146,8 @@ Deno.serve(async (req: Request) => {
     await admin.from("profiles").upsert({
       id: user.id,
       display_name: nickname,
-      avatar,
+      avatar: avatarConfig.avatarId,
+      avatar_config: avatarConfig,
       updated_at: new Date().toISOString(),
     });
 

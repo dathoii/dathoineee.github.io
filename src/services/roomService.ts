@@ -1,5 +1,6 @@
 import { invokeEdgeFunction, requireSupabase } from "./supabase";
 import type {
+  AvatarConfig,
   CategoryFilter,
   Difficulty,
   GameRound,
@@ -13,6 +14,7 @@ export interface CreateRoomInput {
   room_name: string;
   nickname: string;
   avatar: string;
+  avatar_config?: AvatarConfig;
   max_players: number;
   undercover_count: number;
   mr_white_count: number;
@@ -24,6 +26,7 @@ export interface JoinRoomInput {
   room_code: string;
   nickname: string;
   avatar: string;
+  avatar_config?: AvatarConfig;
 }
 
 export interface RoomSnapshot {

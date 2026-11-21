@@ -12,13 +12,15 @@ import {
   getMyAssignment,
 } from "../../services/gameService";
 import { leaveRoom } from "../../services/roomService";
+import { resolvePlayerAvatarConfig } from "../../utils/avatars";
+import { LayeredAvatar } from "../../components/avatar/LayeredAvatar";
 import type { MySecretAssignment } from "../../types/game";
 import detectiveShush from "../../assets/characters/detective-shush.png";
 
 export const SecretWordPage: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
-  const { feedback, showToast } = useAppSettings();
+  const { feedback, showToast, playerPref } = useAppSettings();
   const { snapshot, currentUserId, loading } = useRoomRealtime(roomId);
 
   const [assignment, setAssignment] = useState<MySecretAssignment | null>(null);
@@ -192,7 +194,17 @@ export const SecretWordPage: React.FC = () => {
       </div>
 
       {/* Lời chào & cảnh báo bảo mật */}
-      <div className="text-center space-y-1 mb-3">
+      <div className="text-center space-y-1.5 mb-3 overflow-visible">
+        <div className="flex justify-center pt-1 pb-0.5 overflow-visible">
+          <LayeredAvatar
+            config={
+              myPlayer
+                ? resolvePlayerAvatarConfig(myPlayer)
+                : playerPref.avatarConfig
+            }
+            size={50}
+          />
+        </div>
         <h1 className="font-display font-extrabold text-[28px] sm:text-[32px] leading-tight">
           XIN CHÀO, {playerDisplayName}! 👋
         </h1>

@@ -1,5 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import type { AppSettings } from "../types/game";
+import type { AppSettings, AvatarConfig } from "../types/game";
+import { DEFAULT_AVATAR_CONFIG } from "../utils/avatars";
+import { fetchProfileAvatarConfig } from "../services/avatarAssetService";
 import { playFeedback } from "../utils/feedback";
 
 const SETTINGS_STORAGE_KEY = "dathoineee_app_settings_v1";
@@ -22,13 +24,15 @@ export interface ToastMessage {
 interface PlayerPref {
   nickname: string;
   avatar: string;
+  avatarConfig: AvatarConfig;
 }
 
 interface AppSettingsContextValue {
   settings: AppSettings;
   updateSetting: <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => void;
   playerPref: PlayerPref;
-  savePlayerPref: (nickname: string, avatar: string) => void;
+  savePlayerPref: (nickname: string, avatar: string, avatarConfig?: AvatarConfig) => void;
+  saveAvatarConfigPref: (avatarConfig: AvatarConfig) => void;
   feedback: (type: "tap" | "success" | "alert" | "bell") => void;
   toasts: ToastMessage[];
   showToast: (message: string, type?: ToastMessage["type"]) => void;
@@ -57,14 +61,40 @@ function readStoredSettings(): AppSettings {
 function readStoredPlayerPref(): PlayerPref {
   try {
     const raw = localStorage.getItem(PROFILE_PREF_KEY);
-    if (!raw) return { nickname: "", avatar: "avatar-dino" };
+    if (!raw) {
+      return {
+        nickname: "",
+        avatar: DEFAULT_AVATAR_CONFIG.avatarId,
+        avatarConfig: DEFAULT_AVATAR_CONFIG,
+      };
+    }
     const parsed = JSON.parse(raw) as Partial<PlayerPref>;
+    const avatar =
+      typeof parsed.avatar === "string" && parsed.avatar
+        ? parsed.avatar
+        : DEFAULT_AVATAR_CONFIG.avatarId;
+    const rawCfg = parsed.avatarConfig;
+    const avatarConfig: AvatarConfig =
+      rawCfg && typeof rawCfg === "object" && typeof rawCfg.avatarId === "string"
+        ? {
+            avatarId: rawCfg.avatarId || avatar,
+            headId: rawCfg.headId ?? null,
+            wingsId: rawCfg.wingsId ?? null,
+            effectsId: rawCfg.effectsId ?? null,
+            otherIds: Array.isArray(rawCfg.otherIds) ? rawCfg.otherIds : [],
+          }
+        : { ...DEFAULT_AVATAR_CONFIG, avatarId: avatar };
     return {
       nickname: typeof parsed.nickname === "string" ? parsed.nickname : "",
-      avatar: typeof parsed.avatar === "string" ? parsed.avatar : "avatar-dino",
+      avatar: avatarConfig.avatarId,
+      avatarConfig,
     };
   } catch {
-    return { nickname: "", avatar: "avatar-dino" };
+    return {
+      nickname: "",
+      avatar: DEFAULT_AVATAR_CONFIG.avatarId,
+      avatarConfig: DEFAULT_AVATAR_CONFIG,
+    };
   }
 }
 
@@ -95,14 +125,67 @@ export const AppSettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     []
   );
 
-  const savePlayerPref = useCallback((nickname: string, avatar: string) => {
-    const next = { nickname: nickname.trim(), avatar };
-    setPlayerPref(next);
-    try {
-      localStorage.setItem(PROFILE_PREF_KEY, JSON.stringify(next));
-    } catch {
-      // Ignore storage quota issues
-    }
+  const savePlayerPref = useCallback(
+    (nickname: string, avatar: string, avatarConfig?: AvatarConfig) => {
+      setPlayerPref((prev) => {
+        const resolvedConfig: AvatarConfig = avatarConfig
+          ? { ...avatarConfig }
+          : { ...prev.avatarConfig, avatarId: avatar };
+        const next: PlayerPref = {
+          nickname: nickname.trim(),
+          avatar: resolvedConfig.avatarId,
+          avatarConfig: resolvedConfig,
+        };
+        try {
+          localStorage.setItem(PROFILE_PREF_KEY, JSON.stringify(next));
+        } catch {
+          // Ignore storage quota issues
+        }
+        return next;
+      });
+    },
+    []
+  );
+
+  const saveAvatarConfigPref = useCallback((avatarConfig: AvatarConfig) => {
+    setPlayerPref((prev) => {
+      const next: PlayerPref = {
+        ...prev,
+        avatar: avatarConfig.avatarId,
+        avatarConfig,
+      };
+      try {
+        localStorage.setItem(PROFILE_PREF_KEY, JSON.stringify(next));
+      } catch {
+        // Ignore storage quota issues
+      }
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    fetchProfileAvatarConfig()
+      .then((remoteConfig) => {
+        if (!active || !remoteConfig) return;
+        setPlayerPref((prev) => {
+          const next: PlayerPref = {
+            ...prev,
+            avatar: remoteConfig.avatarId,
+            avatarConfig: remoteConfig,
+          };
+          try {
+            localStorage.setItem(PROFILE_PREF_KEY, JSON.stringify(next));
+          } catch {
+            // Ignore
+          }
+          return next;
+        });
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
   }, []);
 
   const feedback = useCallback(
@@ -134,6 +217,7 @@ export const AppSettingsProvider: React.FC<{ children: React.ReactNode }> = ({
         updateSetting,
         playerPref,
         savePlayerPref,
+        saveAvatarConfigPref,
         feedback,
         toasts,
         showToast,

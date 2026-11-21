@@ -35,3 +35,9 @@ verify_jwt = false
 
 [functions.admin-manage-word-pairs]
 verify_jwt = false
+
+[functions.update-avatar-config]
+verify_jwt = false
+
+[functions.admin-manage-assets]
+verify_jwt = false

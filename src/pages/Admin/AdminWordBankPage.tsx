@@ -5,6 +5,7 @@ import {
   LogOut,
   Plus,
   Search,
+  Sparkles,
   Trash2,
   Upload,
 } from "lucide-react";
@@ -334,14 +335,28 @@ export const AdminWordBankPage: React.FC = () => {
         showBack
         onBack={() => navigate("/settings")}
         rightExtra={
-          <button
-            type="button"
-            onClick={handleSignOut}
-            aria-label="Đăng xuất Admin"
-            className="chibi-icon-circle bg-[#F8ADAD]"
-          >
-            <LogOut className="w-5 h-5 stroke-[2.5]" />
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => {
+                feedback("tap");
+                navigate("/admin/assets");
+              }}
+              aria-label="Quản lý Avatar & Phụ kiện"
+              title="Quản lý Avatar & Phụ kiện"
+              className="chibi-icon-circle bg-[#FFDE84]"
+            >
+              <Sparkles className="w-5 h-5 stroke-[2.5]" />
+            </button>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              aria-label="Đăng xuất Admin"
+              className="chibi-icon-circle bg-[#F8ADAD]"
+            >
+              <LogOut className="w-5 h-5 stroke-[2.5]" />
+            </button>
+          </div>
         }
       />
 

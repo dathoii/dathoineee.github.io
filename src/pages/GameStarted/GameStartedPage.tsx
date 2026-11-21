@@ -18,6 +18,9 @@ import { useAppSettings } from "../../contexts/AppSettingsContext";
 import { useRoomRealtime } from "../../hooks/useRoomRealtime";
 import { controlDiscussion, endDiscussion } from "../../services/gameService";
 import { claimHost, leaveRoom } from "../../services/roomService";
+import { resolvePlayerAvatarConfig } from "../../utils/avatars";
+import { LayeredAvatar } from "../../components/avatar/LayeredAvatar";
+import { RoomPlayerAvatarModal } from "../../components/avatar/RoomPlayerAvatarModal";
 import { formatSeconds } from "../../utils/validation";
 import crowdInvestigating from "../../assets/images/crowd-investigating.png";
 
@@ -32,6 +35,7 @@ export const GameStartedPage: React.FC = () => {
   const [ending, setEnding] = useState(false);
   const [controlling, setControlling] = useState(false);
   const [displaySeconds, setDisplaySeconds] = useState(300);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const bellPlayedRef = useRef(false);
 
   const room = snapshot?.room;
@@ -39,6 +43,10 @@ export const GameStartedPage: React.FC = () => {
   const round = snapshot?.currentRound;
 
   const isHost = Boolean(room && currentUserId && room.host_id === currentUserId);
+  const me = useMemo(
+    () => players.find((p) => p.user_id === currentUserId) ?? null,
+    [players, currentUserId]
+  );
 
   const hostPlayer = useMemo(
     () => players.find((p) => p.user_id === room?.host_id) ?? null,
@@ -325,6 +333,45 @@ export const GameStartedPage: React.FC = () => {
           )}
         </div>
 
+        {/* Đội hình người chơi */}
+        {players.length > 0 ? (
+          <div className="bg-white/80 border-2 border-[#552416]/25 rounded-2xl px-3 py-2.5 overflow-visible">
+            <div className="text-[11px] font-display font-extrabold text-[#6E3B2B] mb-2">
+              ĐỘI HÌNH PHÒNG ({players.length})
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3.5 overflow-visible pt-1">
+              {players.map((p) => {
+                const isMe = p.user_id === currentUserId;
+                return (
+                  <div
+                    key={p.id}
+                    className="flex flex-col items-center gap-1 min-w-[54px] max-w-[70px] overflow-visible"
+                  >
+                    <LayeredAvatar
+                      config={resolvePlayerAvatarConfig(p)}
+                      size={38}
+                      interactive={isMe}
+                      showBadge={isMe}
+                      ariaLabel={isMe ? "Tùy chỉnh avatar của bạn" : p.nickname}
+                      onClick={
+                        isMe
+                          ? () => {
+                              feedback("tap");
+                              setAvatarModalOpen(true);
+                            }
+                          : undefined
+                      }
+                    />
+                    <span className="text-[10px] font-display font-extrabold text-[#4A1D12] uppercase truncate max-w-full">
+                      {p.nickname}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
         {/* HƯỚNG DẪN */}
         <div className="chibi-section-lavender p-3.5 space-y-1">
           <div className="font-display font-extrabold text-base">HƯỚNG DẪN:</div>
@@ -378,6 +425,16 @@ export const GameStartedPage: React.FC = () => {
         onConfirm={handleLeave}
         onCancel={() => setLeaveOpen(false)}
       />
+
+      {me ? (
+        <RoomPlayerAvatarModal
+          open={avatarModalOpen}
+          initialConfig={resolvePlayerAvatarConfig(me)}
+          roomId={roomId}
+          onClose={() => setAvatarModalOpen(false)}
+          onSaved={() => refresh()}
+        />
+      ) : null}
     </SkyBackdrop>
   );
 };

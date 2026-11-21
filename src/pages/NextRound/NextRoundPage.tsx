@@ -16,7 +16,9 @@ import { useAppSettings } from "../../contexts/AppSettingsContext";
 import { useRoomRealtime } from "../../hooks/useRoomRealtime";
 import { returnToLobby, startNextRound } from "../../services/gameService";
 import { claimHost, leaveRoom, updateReadyStatus } from "../../services/roomService";
-import { getAvatarSrc } from "../../utils/avatars";
+import { resolvePlayerAvatarConfig } from "../../utils/avatars";
+import { LayeredAvatar } from "../../components/avatar/LayeredAvatar";
+import { RoomPlayerAvatarModal } from "../../components/avatar/RoomPlayerAvatarModal";
 import crowdNextRound from "../../assets/images/crowd-next-round.png";
 
 export const NextRoundPage: React.FC = () => {
@@ -29,6 +31,7 @@ export const NextRoundPage: React.FC = () => {
   const [startingNext, setStartingNext] = useState(false);
   const [returningLobby, setReturningLobby] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
 
   const room = snapshot?.room;
   const players = snapshot?.players ?? [];
@@ -227,21 +230,36 @@ export const NextRoundPage: React.FC = () => {
         </div>
 
         {/* Danh sách người chơi 2 cột */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2.5 overflow-visible">
           {players.map((p) => {
             const playerIsHost = p.user_id === room?.host_id;
+            const isMe = p.user_id === currentUserId;
             const bg = p.is_ready ? "bg-[#ADE7CF]" : "bg-[#FFDE84]";
             const subColor = p.is_ready ? "text-[#166A45]" : "text-[#6B4208]";
             return (
               <div
                 key={p.id}
-                className={`${bg} border-[2.5px] border-[#552416] rounded-2xl p-2 flex items-center gap-2 shadow-[0_3px_0_rgba(85,36,22,0.18)]`}
+                className={`${bg} border-[2.5px] border-[#552416] rounded-2xl p-2 flex items-center gap-2.5 overflow-visible shadow-[0_3px_0_rgba(85,36,22,0.18)] ${
+                  isMe ? "ring-2 ring-[#552416]" : ""
+                }`}
               >
-                <img
-                  src={getAvatarSrc(p.avatar)}
-                  alt={p.nickname}
-                  className="w-11 h-11 rounded-full border-2 border-[#552416] bg-white object-cover shrink-0"
-                />
+                <div className="relative shrink-0 overflow-visible py-0.5">
+                  <LayeredAvatar
+                    config={resolvePlayerAvatarConfig(p)}
+                    size={42}
+                    interactive={isMe}
+                    showBadge={isMe}
+                    ariaLabel={isMe ? "Chỉnh sửa avatar của bạn" : p.nickname}
+                    onClick={
+                      isMe
+                        ? () => {
+                            feedback("tap");
+                            setAvatarModalOpen(true);
+                          }
+                        : undefined
+                    }
+                  />
+                </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1 font-display font-extrabold text-sm text-[#4A1D12] leading-tight">
                     <span className="truncate uppercase">{p.nickname}</span>
@@ -342,6 +360,16 @@ export const NextRoundPage: React.FC = () => {
         onConfirm={handleLeave}
         onCancel={() => setLeaveOpen(false)}
       />
+
+      {me ? (
+        <RoomPlayerAvatarModal
+          open={avatarModalOpen}
+          initialConfig={resolvePlayerAvatarConfig(me)}
+          roomId={roomId}
+          onClose={() => setAvatarModalOpen(false)}
+          onSaved={() => refresh()}
+        />
+      ) : null}
     </SkyBackdrop>
   );
 };

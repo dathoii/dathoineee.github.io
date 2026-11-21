@@ -2,6 +2,7 @@ import React from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AppSettingsProvider } from "./contexts/AppSettingsContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { AvatarCatalogProvider } from "./contexts/AvatarCatalogContext";
 import { ToastContainer } from "./components/common/ToastContainer";
 import { HomePage } from "./pages/Home/HomePage";
 import { CreateRoomPage } from "./pages/CreateRoom/CreateRoomPage";
@@ -13,6 +14,7 @@ import { NextRoundPage } from "./pages/NextRound/NextRoundPage";
 import { SettingsPage } from "./pages/Settings/SettingsPage";
 import { AdminLoginPage } from "./pages/Admin/AdminLoginPage";
 import { AdminWordBankPage } from "./pages/Admin/AdminWordBankPage";
+import { AdminAssetManagerPage } from "./pages/Admin/AdminAssetManagerPage";
 
 export const AppRoutes: React.FC = () => (
   <Routes>
@@ -26,6 +28,7 @@ export const AppRoutes: React.FC = () => (
     <Route path="/settings" element={<SettingsPage />} />
     <Route path="/admin/login" element={<AdminLoginPage />} />
     <Route path="/admin" element={<AdminWordBankPage />} />
+    <Route path="/admin/assets" element={<AdminAssetManagerPage />} />
     <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
 );
@@ -34,10 +37,12 @@ export const App: React.FC = () => {
   return (
     <AppSettingsProvider>
       <AuthProvider>
-        <HashRouter>
-          <ToastContainer />
-          <AppRoutes />
-        </HashRouter>
+        <AvatarCatalogProvider>
+          <HashRouter>
+            <ToastContainer />
+            <AppRoutes />
+          </HashRouter>
+        </AvatarCatalogProvider>
       </AuthProvider>
     </AppSettingsProvider>
   );

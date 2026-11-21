@@ -7,20 +7,28 @@ import { AvatarSelector } from "../../components/common/AvatarSelector";
 import { SupabaseConfigBanner } from "../../components/common/SupabaseConfigBanner";
 import { useAppSettings } from "../../contexts/AppSettingsContext";
 import { joinRoom } from "../../services/roomService";
+import { DEFAULT_AVATAR_CONFIG } from "../../utils/avatars";
 import { normalizeRoomCode } from "../../utils/validation";
+import type { AvatarConfig } from "../../types/game";
 import detectiveJoin from "../../assets/characters/detective-join.png";
 
 export const JoinRoomPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { playerPref, savePlayerPref, feedback, showToast } = useAppSettings();
+  const { playerPref, savePlayerPref, saveAvatarConfigPref, feedback, showToast } =
+    useAppSettings();
 
   const initialCode = normalizeRoomCode(searchParams.get("room") ?? "");
   const [codeChars, setCodeChars] = useState<string[]>(() =>
     Array.from({ length: 6 }, (_, i) => initialCode[i] ?? "")
   );
   const [nickname, setNickname] = useState(playerPref.nickname || "");
-  const [avatar, setAvatar] = useState(playerPref.avatar || "avatar-blue-glasses");
+  const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(
+    playerPref.avatarConfig ?? {
+      ...DEFAULT_AVATAR_CONFIG,
+      avatarId: playerPref.avatar || "avatar-blue-glasses",
+    }
+  );
   const [submitting, setSubmitting] = useState(false);
   const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
@@ -97,11 +105,12 @@ export const JoinRoomPage: React.FC = () => {
 
     setSubmitting(true);
     try {
-      savePlayerPref(trimmedName, avatar);
+      savePlayerPref(trimmedName, avatarConfig.avatarId, avatarConfig);
       const res = await joinRoom({
         room_code: fullCode,
         nickname: trimmedName,
-        avatar,
+        avatar: avatarConfig.avatarId,
+        avatar_config: avatarConfig,
       });
       feedback("success");
       showToast(
@@ -209,7 +218,13 @@ export const JoinRoomPage: React.FC = () => {
           <h2 className="font-display font-extrabold text-base mb-1.5">
             CHỌN AVATAR CỦA BẠN 🎨
           </h2>
-          <AvatarSelector selectedId={avatar} onSelect={setAvatar} />
+          <AvatarSelector
+            selectedConfig={avatarConfig}
+            onChangeConfig={(next) => {
+              setAvatarConfig(next);
+              saveAvatarConfigPref(next);
+            }}
+          />
         </div>
 
         {/* Thông báo cảnh báo */}

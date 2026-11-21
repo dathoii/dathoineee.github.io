@@ -67,15 +67,87 @@ export const WORD_CATEGORIES = ALLOWED_CATEGORIES.filter(
 
 export const ALLOWED_DIFFICULTIES = ["easy", "medium", "hard"] as const;
 
-export const ALLOWED_AVATARS = new Set([
-  "avatar-dino",
-  "avatar-cat",
-  "avatar-green-curly",
-  "avatar-blue-glasses",
-  "avatar-bunny",
-  "avatar-blue-shades",
-  "avatar-afro-shades",
-  "avatar-blonde-boy",
-  "avatar-red-glasses",
-  "avatar-orange-kimono",
-]);
+export const ASSET_CATEGORIES = [
+  "avatar",
+  "head",
+  "wings",
+  "effects",
+  "other",
+] as const;
+
+export interface AvatarConfig {
+  avatarId: string;
+  headId: string | null;
+  wingsId: string | null;
+  effectsId: string | null;
+  otherIds: string[];
+}
+
+export async function sanitizeAvatarConfig(
+  admin: SupabaseClient,
+  rawConfig: unknown,
+  fallbackAvatarId?: string
+): Promise<AvatarConfig> {
+  const { data: assets } = await admin
+    .from("avatar_assets")
+    .select("id, category, enabled")
+    .eq("enabled", true);
+
+  const enabledList = (assets ?? []) as Array<{
+    id: string;
+    category: string;
+    enabled: boolean;
+  }>;
+
+  const byCategory = new Map<string, Set<string>>();
+  for (const cat of ASSET_CATEGORIES) byCategory.set(cat, new Set());
+  for (const item of enabledList) {
+    byCategory.get(item.category)?.add(item.id);
+  }
+
+  const avatarSet = byCategory.get("avatar") ?? new Set<string>();
+  const firstEnabledAvatar =
+    enabledList.find((item) => item.category === "avatar")?.id ?? "avatar-dino";
+
+  const cfg = (
+    rawConfig && typeof rawConfig === "object" ? rawConfig : {}
+  ) as Record<string, unknown>;
+
+  const requestedAvatarId =
+    typeof cfg.avatarId === "string" && cfg.avatarId.trim()
+      ? cfg.avatarId.trim()
+      : (fallbackAvatarId ?? "").trim();
+
+  const avatarId = avatarSet.has(requestedAvatarId)
+    ? requestedAvatarId
+    : firstEnabledAvatar;
+
+  const pickSingle = (cat: string, val: unknown): string | null => {
+    if (typeof val !== "string" || !val.trim()) return null;
+    const id = val.trim();
+    return byCategory.get(cat)?.has(id) ? id : null;
+  };
+
+  const otherSet = byCategory.get("other") ?? new Set<string>();
+  const rawOther = Array.isArray(cfg.otherIds) ? cfg.otherIds : [];
+  const seenOther = new Set<string>();
+  const otherIds: string[] = [];
+  for (const entry of rawOther) {
+    if (typeof entry === "string") {
+      const id = entry.trim();
+      if (otherSet.has(id) && !seenOther.has(id)) {
+        seenOther.add(id);
+        otherIds.push(id);
+      }
+    }
+    if (otherIds.length >= 6) break;
+  }
+
+  return {
+    avatarId,
+    headId: pickSingle("head", cfg.headId),
+    wingsId: pickSingle("wings", cfg.wingsId),
+    effectsId: pickSingle("effects", cfg.effectsId),
+    otherIds,
+  };
+}

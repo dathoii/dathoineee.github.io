@@ -8,9 +8,9 @@ import { AvatarSelector } from "../../components/common/AvatarSelector";
 import { SupabaseConfigBanner } from "../../components/common/SupabaseConfigBanner";
 import { useAppSettings } from "../../contexts/AppSettingsContext";
 import { createRoom } from "../../services/roomService";
-import { CATEGORY_FILTERS, DIFFICULTY_META } from "../../utils/avatars";
+import { CATEGORY_FILTERS, DEFAULT_AVATAR_CONFIG, DIFFICULTY_META } from "../../utils/avatars";
 import { validateRoleDistribution } from "../../utils/validation";
-import type { CategoryFilter, Difficulty } from "../../types/game";
+import type { AvatarConfig, CategoryFilter, Difficulty } from "../../types/game";
 import detectivePeek from "../../assets/characters/detective-peek.png";
 import partyPopper from "../../assets/icons/party-popper.png";
 import roleUndercover from "../../assets/icons/role-undercover.png";
@@ -19,12 +19,16 @@ import roleCivilian from "../../assets/icons/role-civilian.png";
 
 export const CreateRoomPage: React.FC = () => {
   const navigate = useNavigate();
-  const { playerPref, savePlayerPref, feedback, showToast } = useAppSettings();
+  const { playerPref, savePlayerPref, saveAvatarConfigPref, feedback, showToast } =
+    useAppSettings();
 
   const [roomName, setRoomName] = useState("Hội bạn thân");
   const [hostNickname, setHostNickname] = useState(playerPref.nickname || "");
-  const [hostAvatar, setHostAvatar] = useState(
-    playerPref.avatar || "avatar-blue-shades"
+  const [hostAvatarConfig, setHostAvatarConfig] = useState<AvatarConfig>(
+    playerPref.avatarConfig ?? {
+      ...DEFAULT_AVATAR_CONFIG,
+      avatarId: playerPref.avatar || "avatar-blue-shades",
+    }
   );
   const [maxPlayers, setMaxPlayers] = useState(8);
   const [undercoverCount, setUndercoverCount] = useState(1);
@@ -78,11 +82,12 @@ export const CreateRoomPage: React.FC = () => {
 
     setSubmitting(true);
     try {
-      savePlayerPref(trimmedHost, hostAvatar);
+      savePlayerPref(trimmedHost, hostAvatarConfig.avatarId, hostAvatarConfig);
       const res = await createRoom({
         room_name: trimmedRoom,
         nickname: trimmedHost,
-        avatar: hostAvatar,
+        avatar: hostAvatarConfig.avatarId,
+        avatar_config: hostAvatarConfig,
         max_players: maxPlayers,
         undercover_count: undercoverCount,
         mr_white_count: mrWhiteCount,
@@ -198,8 +203,11 @@ export const CreateRoomPage: React.FC = () => {
                 />
               </div>
               <AvatarSelector
-                selectedId={hostAvatar}
-                onSelect={setHostAvatar}
+                selectedConfig={hostAvatarConfig}
+                onChangeConfig={(next) => {
+                  setHostAvatarConfig(next);
+                  saveAvatarConfigPref(next);
+                }}
                 compact
               />
             </div>

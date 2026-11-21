@@ -24,7 +24,9 @@ import {
   updateRoomSettings,
 } from "../../services/roomService";
 import { startRound } from "../../services/gameService";
-import { CATEGORY_FILTERS, DIFFICULTY_META, getAvatarSrc } from "../../utils/avatars";
+import { CATEGORY_FILTERS, DIFFICULTY_META, resolvePlayerAvatarConfig } from "../../utils/avatars";
+import { LayeredAvatar } from "../../components/avatar/LayeredAvatar";
+import { RoomPlayerAvatarModal } from "../../components/avatar/RoomPlayerAvatarModal";
 import { validateRoleDistribution } from "../../utils/validation";
 import type { CategoryFilter, Difficulty } from "../../types/game";
 import detectiveLobby from "../../assets/characters/detective-lobby.png";
@@ -43,6 +45,7 @@ export const LobbyPage: React.FC = () => {
   const [leaveConfirmOpen, setLeaveConfirmOpen] = useState(false);
   const [claimingHost, setClaimingHost] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
 
   // Chỉnh cấu hình nhanh cho chủ phòng
   const [editOpen, setEditOpen] = useState(false);
@@ -401,7 +404,7 @@ export const LobbyPage: React.FC = () => {
           <h2 className="font-display font-extrabold text-base mb-2">
             DANH SÁCH NGƯỜI CHƠI
           </h2>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2.5 overflow-visible">
             {players.map((p) => {
               const playerIsHost = p.user_id === room.host_id;
               const isMe = p.user_id === currentUserId;
@@ -416,21 +419,26 @@ export const LobbyPage: React.FC = () => {
               return (
                 <div
                   key={p.id}
-                  className={`${cardBg} border-[2.5px] border-[#552416] rounded-2xl p-2 flex items-center gap-2 shadow-[0_3px_0_rgba(85,36,22,0.18)] ${
+                  className={`${cardBg} border-[2.5px] border-[#552416] rounded-2xl p-2 flex items-center gap-2.5 overflow-visible shadow-[0_3px_0_rgba(85,36,22,0.18)] ${
                     isMe ? "ring-2 ring-[#552416]" : ""
                   }`}
                 >
-                  <div className="relative shrink-0">
-                    <img
-                      src={getAvatarSrc(p.avatar)}
-                      alt={p.nickname}
-                      className="w-11 h-11 rounded-full border-2 border-[#552416] bg-white object-cover"
-                    />
-                    <span
-                      title={offline ? "Mất kết nối" : "Đang trực tuyến"}
-                      className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                        offline ? "bg-[#E53935]" : "bg-[#1EA454]"
-                      }`}
+                  <div className="relative shrink-0 overflow-visible py-0.5">
+                    <LayeredAvatar
+                      config={resolvePlayerAvatarConfig(p)}
+                      size={42}
+                      isOnline={!offline}
+                      interactive={isMe}
+                      showBadge={isMe}
+                      ariaLabel={isMe ? "Chỉnh sửa avatar của bạn" : p.nickname}
+                      onClick={
+                        isMe
+                          ? () => {
+                              feedback("tap");
+                              setAvatarModalOpen(true);
+                            }
+                          : undefined
+                      }
                     />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -631,6 +639,16 @@ export const LobbyPage: React.FC = () => {
           </button>
         </form>
       </Modal>
+
+      {me ? (
+        <RoomPlayerAvatarModal
+          open={avatarModalOpen}
+          initialConfig={resolvePlayerAvatarConfig(me)}
+          roomId={roomId}
+          onClose={() => setAvatarModalOpen(false)}
+          onSaved={() => refresh()}
+        />
+      ) : null}
     </SkyBackdrop>
   );
 };

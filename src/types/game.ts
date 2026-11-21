@@ -43,12 +43,40 @@ export interface RoomSettings {
   updated_at: string;
 }
 
+export type AssetCategory = "avatar" | "head" | "wings" | "effects" | "other";
+
+export interface AvatarAsset {
+  id: string;
+  name: string;
+  category: AssetCategory;
+  image_url: string;
+  storage_path: string | null;
+  description: string;
+  enabled: boolean;
+  scale: number;
+  position_x: number;
+  position_y: number;
+  z_index: number;
+  is_builtin: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AvatarConfig {
+  avatarId: string;
+  headId: string | null;
+  wingsId: string | null;
+  effectsId: string | null;
+  otherIds: string[];
+}
+
 export interface RoomPlayer {
   id: string;
   room_id: string;
   user_id: string;
   nickname: string;
   avatar: string;
+  avatar_config?: AvatarConfig;
   is_ready: boolean;
   is_connected: boolean;
   last_seen_at: string;

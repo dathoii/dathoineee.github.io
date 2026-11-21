@@ -249,6 +249,18 @@ export const SettingsPage: React.FC = () => {
                 type="button"
                 onClick={() => {
                   feedback("tap");
+                  navigate("/admin/assets");
+                }}
+                className="chibi-btn btn-yellow w-full text-lg py-3"
+              >
+                <Sparkles className="w-5 h-5 stroke-[2.6]" />
+                <span>QUẢN LÝ AVATAR &amp; PHỤ KIỆN</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  feedback("tap");
                   navigate("/admin");
                 }}
                 className="chibi-btn btn-mint w-full text-lg py-3"
