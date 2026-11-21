@@ -68,7 +68,7 @@ export const LobbyPage: React.FC = () => {
     } else if (room.status === "discussing") {
       navigate(`/room/${roomId}/play`, { replace: true });
     } else if (room.status === "round_ended") {
-      navigate(`/room/${roomId}/next`, { replace: true });
+      navigate(`/room/${roomId}/results`, { replace: true });
     } else if (room.status === "closed") {
       showToast("Phòng đã đóng.", "info");
       navigate("/", { replace: true });

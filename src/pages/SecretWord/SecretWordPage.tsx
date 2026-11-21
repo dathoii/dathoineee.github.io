@@ -50,7 +50,7 @@ export const SecretWordPage: React.FC = () => {
     if (room.status === "discussing") {
       navigate(`/room/${roomId}/play`, { replace: true });
     } else if (room.status === "round_ended") {
-      navigate(`/room/${roomId}/next`, { replace: true });
+      navigate(`/room/${roomId}/results`, { replace: true });
     } else if (room.status === "waiting") {
       navigate(`/room/${roomId}/lobby`, { replace: true });
     } else if (room.status === "closed") {

@@ -10,6 +10,7 @@ import { JoinRoomPage } from "./pages/JoinRoom/JoinRoomPage";
 import { LobbyPage } from "./pages/Lobby/LobbyPage";
 import { SecretWordPage } from "./pages/SecretWord/SecretWordPage";
 import { GameStartedPage } from "./pages/GameStarted/GameStartedPage";
+import { RoundResultsPage } from "./pages/RoundResults/RoundResultsPage";
 import { NextRoundPage } from "./pages/NextRound/NextRoundPage";
 import { SettingsPage } from "./pages/Settings/SettingsPage";
 import { AdminLoginPage } from "./pages/Admin/AdminLoginPage";
@@ -24,6 +25,7 @@ export const AppRoutes: React.FC = () => (
     <Route path="/room/:roomId/lobby" element={<LobbyPage />} />
     <Route path="/room/:roomId/secret" element={<SecretWordPage />} />
     <Route path="/room/:roomId/play" element={<GameStartedPage />} />
+    <Route path="/room/:roomId/results" element={<RoundResultsPage />} />
     <Route path="/room/:roomId/next" element={<NextRoundPage />} />
     <Route path="/settings" element={<SettingsPage />} />
     <Route path="/admin/login" element={<AdminLoginPage />} />

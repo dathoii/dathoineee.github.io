@@ -21,6 +21,9 @@ verify_jwt = false
 [functions.get-my-assignment]
 verify_jwt = false
 
+[functions.get-round-results]
+verify_jwt = false
+
 [functions.acknowledge-assignment]
 verify_jwt = false
 

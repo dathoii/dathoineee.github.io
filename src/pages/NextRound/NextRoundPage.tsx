@@ -4,6 +4,7 @@ import {
   Crown,
   Hourglass,
   Rocket,
+  Search,
   ThumbsUp,
   Undo2,
   Users,
@@ -212,13 +213,28 @@ export const NextRoundPage: React.FC = () => {
       {/* Card chính */}
       <div className="chibi-card relative px-3.5 pt-4 pb-8 mb-6 space-y-3">
         {/* Banner chúc mừng kết thúc ván trước */}
-        <div className="chibi-section-yellow border-2 border-[#552416]/25 px-3 py-2.5 text-center">
-          <div className="font-display font-extrabold text-lg sm:text-xl text-[#4A1D12]">
-            🎉 VÁN TRƯỚC ĐÃ KẾT THÚC! 🎉
+        <div className="chibi-section-yellow border-2 border-[#552416]/25 px-3 py-2.5 text-center space-y-2">
+          <div>
+            <div className="font-display font-extrabold text-lg sm:text-xl text-[#4A1D12]">
+              🎉 VÁN TRƯỚC ĐÃ KẾT THÚC! 🎉
+            </div>
+            <div className="text-xs sm:text-sm font-bold text-[#4A1D12]/90">
+              Bạn đã sẵn sàng cho thử thách tiếp theo chưa?
+            </div>
           </div>
-          <div className="text-xs sm:text-sm font-bold text-[#4A1D12]/90">
-            Bạn đã sẵn sàng cho thử thách tiếp theo chưa?
-          </div>
+          {roomId ? (
+            <button
+              type="button"
+              onClick={() => {
+                feedback("tap");
+                navigate(`/room/${roomId}/results`);
+              }}
+              className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-[#FFF9E6] text-[#4A1D12] border-2 border-[#552416] rounded-full px-3.5 py-1 text-xs font-extrabold shadow-[0_2px_0_#552416] active:translate-y-0.5 transition-transform"
+            >
+              <Search className="w-3.5 h-3.5 stroke-[2.6]" />
+              <span>XEM LẠI KẾT QUẢ VÁN VỪA RỒI</span>
+            </button>
+          ) : null}
         </div>
 
         {/* Bộ đếm sẵn sàng */}

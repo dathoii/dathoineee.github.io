@@ -161,6 +161,30 @@ export interface MySecretAssignment {
   acknowledged_at: string | null;
 }
 
+export interface RoundPlayerResult {
+  player_id: string;
+  user_id: string;
+  nickname: string;
+  avatar: string;
+  avatar_config?: AvatarConfig;
+  role: PlayerRole;
+  secret_word: string | null;
+}
+
+export interface RoundResultsResponse {
+  round_id: string;
+  round_number: number;
+  room_name: string;
+  word_pair: {
+    category: WordCategory;
+    civilian_word: string;
+    undercover_word: string;
+    difficulty: Difficulty;
+    note: string;
+  } | null;
+  results: RoundPlayerResult[];
+}
+
 export interface WordPair {
   id: string;
   category: WordCategory;

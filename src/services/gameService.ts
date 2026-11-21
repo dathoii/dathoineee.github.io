@@ -1,5 +1,9 @@
 import { invokeEdgeFunction } from "./supabase";
-import type { GameRound, MySecretAssignment } from "../types/game";
+import type {
+  GameRound,
+  MySecretAssignment,
+  RoundResultsResponse,
+} from "../types/game";
 
 export async function startRound(roomId: string): Promise<{
   round: { round_id: string; round_number: number; status: string };
@@ -25,6 +29,10 @@ export async function returnToLobby(roomId: string): Promise<void> {
 
 export async function getMyAssignment(roomId: string): Promise<MySecretAssignment> {
   return invokeEdgeFunction("get-my-assignment", { room_id: roomId });
+}
+
+export async function getRoundResults(roomId: string): Promise<RoundResultsResponse> {
+  return invokeEdgeFunction("get-round-results", { room_id: roomId });
 }
 
 export async function acknowledgeAssignment(

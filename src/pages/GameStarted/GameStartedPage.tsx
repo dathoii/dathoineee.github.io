@@ -63,7 +63,7 @@ export const GameStartedPage: React.FC = () => {
   useEffect(() => {
     if (!room || !roomId) return;
     if (room.status === "round_ended") {
-      navigate(`/room/${roomId}/next`, { replace: true });
+      navigate(`/room/${roomId}/results`, { replace: true });
     } else if (room.status === "revealing") {
       navigate(`/room/${roomId}/secret`, { replace: true });
     } else if (room.status === "waiting") {
@@ -382,7 +382,7 @@ export const GameStartedPage: React.FC = () => {
           </ul>
         </div>
 
-        {/* Nút KẾT THÚC LƯỢT (chỉ chủ phòng) */}
+        {/* Nút KẾT THÚC VÁN ĐẤU (chỉ chủ phòng) */}
         {isHost ? (
           <button
             type="button"
@@ -391,11 +391,11 @@ export const GameStartedPage: React.FC = () => {
             className="chibi-btn btn-mint w-full text-[22px] py-3"
           >
             <Flag className="w-6 h-6 stroke-[2.6]" />
-            <span>{ending ? "ĐANG KẾT THÚC..." : "KẾT THÚC LƯỢT"}</span>
+            <span>{ending ? "ĐANG KẾT THÚC..." : "KẾT THÚC VÁN ĐẤU"}</span>
           </button>
         ) : (
           <div className="text-center text-xs font-extrabold opacity-80 py-1">
-            Đặt điện thoại xuống, thảo luận trực tiếp và chờ chủ phòng kết thúc lượt!
+            Đặt điện thoại xuống, thảo luận trực tiếp và chờ chủ phòng kết thúc ván đấu!
           </div>
         )}
 
