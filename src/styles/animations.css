@@ -1,0 +1,288 @@
+/* ============================================================================
+ * GPU-COMPOSITED CHIBI AVATAR & ACCESSORY ANIMATION ENGINE
+ * Chỉ dùng transform / opacity để đạt 60fps trên mọi thiết bị kể cả máy yếu.
+ * ============================================================================ */
+
+@keyframes chibi-idle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, calc(var(--chibi-amp, 3px) * -0.45), 0)
+      scale(calc(1 + var(--chibi-scale-delta, 0.03)))
+      rotate(calc(var(--chibi-rot, 2deg) * 0.45));
+  }
+}
+
+@keyframes chibi-bounce {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scaleY(1) scaleX(1);
+  }
+  35% {
+    transform: translate3d(0, calc(var(--chibi-amp, 4px) * -1.2), 0) scaleY(1.03) scaleX(0.98);
+  }
+  70% {
+    transform: translate3d(0, 1px, 0) scaleY(0.97) scaleX(1.02);
+  }
+}
+
+@keyframes chibi-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, calc(var(--chibi-amp, 4px) * -1), 0);
+  }
+}
+
+@keyframes chibi-sway {
+  0%,
+  100% {
+    transform: rotate(calc(var(--chibi-rot, 4deg) * -0.5));
+  }
+  50% {
+    transform: rotate(calc(var(--chibi-rot, 4deg) * 0.5));
+  }
+}
+
+@keyframes chibi-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(var(--chibi-rot, 360deg));
+  }
+}
+
+@keyframes chibi-glow {
+  0%,
+  100% {
+    opacity: 0.92;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(calc(1 + var(--chibi-scale-delta, 0.04)));
+    filter: brightness(1.12) drop-shadow(0 0 var(--chibi-glow, 6px) rgba(255, 226, 120, 0.72));
+  }
+}
+
+@keyframes chibi-scale {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  40% {
+    transform: scale(calc(1 + var(--chibi-scale-delta, 0.06)), calc(1 - var(--chibi-scale-delta, 0.05)));
+  }
+  75% {
+    transform: scale(calc(1 - var(--chibi-scale-delta, 0.04)), calc(1 + var(--chibi-scale-delta, 0.05)));
+  }
+}
+
+@keyframes chibi-custom {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(0, calc(var(--chibi-amp, 3px) * -0.8), 0)
+      rotate(var(--chibi-rot, 4deg))
+      scale(calc(1 + var(--chibi-scale-delta, 0.04)));
+  }
+}
+
+/* Đôi cánh vỗ đối xứng và lệch pha tự nhiên ở bên trái & bên phải */
+@keyframes chibi-wing-flap-left {
+  0%,
+  100% {
+    transform: rotate(0deg) scaleX(1);
+  }
+  50% {
+    transform: rotate(calc(var(--chibi-rot, 10deg) * -1)) scaleX(0.92);
+  }
+}
+
+@keyframes chibi-wing-flap-right {
+  0%,
+  100% {
+    transform: rotate(0deg) scaleX(1);
+  }
+  55% {
+    transform: rotate(var(--chibi-rot, 10deg)) scaleX(0.92);
+  }
+}
+
+/* Chớp mắt thật trực tiếp trên vùng mí mắt (không làm mờ mặt avatar) */
+@keyframes chibi-eyelid-blink {
+  0%,
+  89%,
+  100% {
+    transform: translate(-50%, -50%) scaleY(0);
+    opacity: 0;
+  }
+  92%,
+  95% {
+    transform: translate(-50%, -50%) scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Tia sáng lướt qua kính mát của các nhân vật đeo kính */
+@keyframes chibi-lens-glint {
+  0%,
+  75%,
+  100% {
+    transform: translate(-50%, -50%) translateX(-45%) rotate(25deg);
+    opacity: 0;
+  }
+  84% {
+    opacity: 0.72;
+  }
+  92% {
+    transform: translate(-50%, -50%) translateX(55%) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* Hạt particle nhẹ bay lên / lấp lánh / rơi */
+@keyframes chibi-particle-twinkle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.55) rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate3d(0, -4px, 0) scale(1.08) rotate(25deg);
+    opacity: 0.95;
+  }
+}
+
+@keyframes chibi-particle-rise {
+  0% {
+    transform: translate3d(0, 5px, 0) scale(0.75);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(0, -14px, 0) scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes chibi-particle-fall {
+  0% {
+    transform: translate3d(-2px, -10px, 0) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(3px, 12px, 0) rotate(65deg) scale(0.95);
+    opacity: 0;
+  }
+}
+
+.chibi-anim {
+  will-change: transform;
+  animation-duration: var(--chibi-dur, 2400ms);
+  animation-delay: var(--chibi-delay, 0ms);
+  animation-iteration-count: var(--chibi-iter, infinite);
+  animation-timing-function: ease-in-out;
+  animation-direction: var(--chibi-dir, alternate);
+}
+
+.chibi-anim-idle {
+  animation-name: chibi-idle;
+}
+
+.chibi-anim-bounce {
+  animation-name: chibi-bounce;
+}
+
+.chibi-anim-float {
+  animation-name: chibi-float;
+}
+
+.chibi-anim-sway {
+  animation-name: chibi-sway;
+}
+
+.chibi-anim-rotation {
+  animation-name: chibi-rotation;
+  animation-timing-function: linear;
+}
+
+.chibi-anim-glow {
+  animation-name: chibi-glow;
+}
+
+.chibi-anim-scale {
+  animation-name: chibi-scale;
+}
+
+.chibi-anim-custom {
+  animation-name: chibi-custom;
+}
+
+.chibi-anim-wing-left {
+  animation-name: chibi-wing-flap-left;
+  transform-origin: 45% 52%;
+}
+
+.chibi-anim-wing-right {
+  animation-name: chibi-wing-flap-right;
+  transform-origin: 55% 52%;
+}
+
+.chibi-eyelid {
+  animation: chibi-eyelid-blink var(--blink-dur, 3500ms) ease-in-out infinite;
+}
+
+.chibi-lens-glint {
+  animation: chibi-lens-glint var(--blink-dur, 4000ms) ease-in-out infinite;
+}
+
+.chibi-particle-twinkle {
+  animation: chibi-particle-twinkle var(--p-dur, 1800ms) ease-in-out infinite;
+}
+
+.chibi-particle-rise {
+  animation: chibi-particle-rise var(--p-dur, 2000ms) ease-out infinite;
+}
+
+.chibi-particle-fall {
+  animation: chibi-particle-fall var(--p-dur, 2400ms) linear infinite;
+}
+
+/* Tự động tạm dừng toàn bộ hoạt ảnh khi tab ẩn hoặc avatar nằm ngoài vùng nhìn thấy */
+[data-tab-hidden="true"] .chibi-anim,
+[data-tab-hidden="true"] .chibi-eyelid,
+[data-tab-hidden="true"] .chibi-lens-glint,
+[data-tab-hidden="true"] [class*="chibi-particle-"],
+[data-paused="true"] .chibi-anim,
+[data-paused="true"] .chibi-eyelid,
+[data-paused="true"] .chibi-lens-glint,
+[data-paused="true"] [class*="chibi-particle-"] {
+  animation-play-state: paused !important;
+}
+
+/* Tôn trọng prefers-reduced-motion của hệ điều hành bằng cách giảm nhẹ biên độ & kéo dài nhịp */
+@media (prefers-reduced-motion: reduce) {
+  .chibi-anim {
+    animation-duration: 5000ms !important;
+  }
+  [class*="chibi-particle-"] {
+    display: none !important;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import type { AppSettings, AvatarConfig } from "../types/game";
+import type { AppSettings, AvatarConfig, PerformanceQuality } from "../types/game";
+import { ensureTabVisibilityPauseHook } from "../animation/animationEngine";
 import { DEFAULT_AVATAR_CONFIG } from "../utils/avatars";
 import { fetchProfileAvatarConfig } from "../services/avatarAssetService";
 import { playFeedback } from "../utils/feedback";
@@ -11,6 +12,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   soundEnabled: true,
   effectsEnabled: true,
   vibrationEnabled: true,
+  performanceQuality: "medium",
   theme: "light",
   language: "vi",
 };
@@ -46,10 +48,17 @@ function readStoredSettings(): AppSettings {
     const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
     if (!raw) return DEFAULT_SETTINGS;
     const parsed = JSON.parse(raw) as Partial<AppSettings>;
+    const perf: PerformanceQuality =
+      parsed.performanceQuality === "low" ||
+      parsed.performanceQuality === "high" ||
+      parsed.performanceQuality === "medium"
+        ? parsed.performanceQuality
+        : "medium";
     return {
       soundEnabled: parsed.soundEnabled ?? true,
       effectsEnabled: parsed.effectsEnabled ?? true,
       vibrationEnabled: parsed.vibrationEnabled ?? true,
+      performanceQuality: perf,
       theme: parsed.theme === "dark" ? "dark" : "light",
       language: "vi",
     };
@@ -106,10 +115,15 @@ export const AppSettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   useEffect(() => {
+    ensureTabVisibilityPauseHook();
     document.documentElement.setAttribute("data-theme", settings.theme);
     document.documentElement.setAttribute(
       "data-effects",
       settings.effectsEnabled ? "on" : "off"
+    );
+    document.documentElement.setAttribute(
+      "data-quality",
+      settings.performanceQuality ?? "medium"
     );
     try {
       localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
@@ -235,4 +249,9 @@ export function useAppSettings(): AppSettingsContextValue {
     throw new Error("useAppSettings must be used inside AppSettingsProvider");
   }
   return ctx;
+}
+
+export function useOptionalPerformanceQuality(): PerformanceQuality {
+  const ctx = useContext(AppSettingsContext);
+  return ctx?.settings.performanceQuality ?? "medium";
 }

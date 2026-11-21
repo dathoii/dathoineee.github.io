@@ -5,8 +5,10 @@ import {
   Eye,
   EyeOff,
   ImagePlus,
+  Layers,
   LogOut,
   Move,
+  Play,
   RefreshCw,
   Search,
   Sparkles,
@@ -17,6 +19,8 @@ import { SkyBackdrop } from "../../components/layout/SkyBackdrop";
 import { BrandHeader } from "../../components/common/BrandHeader";
 import { Modal } from "../../components/common/Modal";
 import { ConfirmDialog } from "../../components/common/ConfirmDialog";
+import { AdminCombinationModal } from "../../components/admin/AdminCombinationModal";
+import { AssetAnimationModal } from "../../components/admin/AssetAnimationModal";
 import { AssetPositionModal } from "../../components/admin/AssetPositionModal";
 import { AssetUploadModal } from "../../components/admin/AssetUploadModal";
 import {
@@ -51,7 +55,9 @@ export const AdminAssetManagerPage: React.FC = () => {
 
   // Modals
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [comboOpen, setComboOpen] = useState(false);
   const [positionTarget, setPositionTarget] = useState<AvatarAsset | null>(null);
+  const [animationTarget, setAnimationTarget] = useState<AvatarAsset | null>(null);
   const [editTarget, setEditTarget] = useState<AvatarAsset | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AvatarAsset | null>(null);
 
@@ -306,7 +312,7 @@ export const AdminAssetManagerPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Thanh hành động Upload + Refresh */}
+        {/* Thanh hành động Upload + Combo Preview + Refresh */}
         <div className="grid grid-cols-12 gap-2">
           <button
             type="button"
@@ -314,10 +320,22 @@ export const AdminAssetManagerPage: React.FC = () => {
               feedback("tap");
               setUploadOpen(true);
             }}
-            className="col-span-9 chibi-btn btn-mint !min-h-[44px] text-sm py-2"
+            className="col-span-6 chibi-btn btn-mint !min-h-[44px] text-xs sm:text-sm py-2"
           >
-            <ImagePlus className="w-5 h-5 stroke-[2.6]" />
-            <span>TẢI LÊN AVATAR / PHỤ KIỆN</span>
+            <ImagePlus className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.6]" />
+            <span>TẢI LÊN MỚI</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              feedback("tap");
+              setComboOpen(true);
+            }}
+            className="col-span-4 chibi-btn btn-yellow !min-h-[44px] text-xs py-2"
+            title="Xem trước kết hợp nhiều hoạt ảnh"
+          >
+            <Layers className="w-4 h-4 stroke-[2.6]" />
+            <span>THỬ COMBO</span>
           </button>
           <button
             type="button"
@@ -326,11 +344,11 @@ export const AdminAssetManagerPage: React.FC = () => {
               feedback("tap");
               syncAfterMutation();
             }}
-            className="col-span-3 chibi-btn btn-blue !min-h-[44px] text-xs py-2"
+            className="col-span-2 chibi-btn btn-blue !min-h-[44px] text-xs py-2"
             title="Làm mới danh sách"
+            aria-label="Làm mới danh sách"
           >
             <RefreshCw className={`w-4 h-4 ${loadingList ? "animate-spin" : ""}`} />
-            <span>TẢI LẠI</span>
           </button>
         </div>
 
@@ -428,18 +446,21 @@ export const AdminAssetManagerPage: React.FC = () => {
 
                       <div className="text-[10px] font-extrabold text-[#552416]/80">
                         Tỉ lệ {item.scale.toFixed(2)}x • X {item.position_x}% • Y{" "}
-                        {item.position_y}% • Z {item.z_index}
+                        {item.position_y}% • Z {item.z_index} •{" "}
+                        {item.animation?.enabled === false
+                          ? "Tĩnh"
+                          : `Động: ${item.animation?.type ?? "idle"}`}
                       </div>
                     </div>
                   </div>
 
                   {/* Hàng nút quản lý nhanh */}
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className="grid grid-cols-5 gap-1">
                     <button
                       type="button"
                       disabled={isBusy}
                       onClick={() => handleToggleEnabled(item)}
-                      className={`px-2 py-1.5 rounded-xl border-2 border-[#552416] text-[11px] font-extrabold flex items-center justify-center gap-1 cursor-pointer ${
+                      className={`px-1.5 py-1.5 rounded-xl border-2 border-[#552416] text-[10px] font-extrabold flex items-center justify-center gap-0.5 cursor-pointer ${
                         item.enabled
                           ? "bg-[#ADE7CF] text-[#166A45]"
                           : "bg-gray-200 text-gray-700"
@@ -447,13 +468,13 @@ export const AdminAssetManagerPage: React.FC = () => {
                     >
                       {item.enabled ? (
                         <>
-                          <Eye className="w-3.5 h-3.5" />
-                          <span>ĐANG BẬT</span>
+                          <Eye className="w-3.5 h-3.5 shrink-0" />
+                          <span>BẬT</span>
                         </>
                       ) : (
                         <>
-                          <EyeOff className="w-3.5 h-3.5" />
-                          <span>ĐANG ẨN</span>
+                          <EyeOff className="w-3.5 h-3.5 shrink-0" />
+                          <span>ẨN</span>
                         </>
                       )}
                     </button>
@@ -462,9 +483,9 @@ export const AdminAssetManagerPage: React.FC = () => {
                       type="button"
                       disabled={isBusy}
                       onClick={() => openEditModal(item)}
-                      className="px-2 py-1.5 rounded-xl border-2 border-[#552416] bg-[#FFDE84] text-[#4A1D12] text-[11px] font-extrabold flex items-center justify-center gap-1 cursor-pointer"
+                      className="px-1.5 py-1.5 rounded-xl border-2 border-[#552416] bg-[#FFDE84] text-[#4A1D12] text-[10px] font-extrabold flex items-center justify-center gap-0.5 cursor-pointer"
                     >
-                      <Edit3 className="w-3.5 h-3.5" />
+                      <Edit3 className="w-3.5 h-3.5 shrink-0" />
                       <span>SỬA</span>
                     </button>
 
@@ -475,10 +496,23 @@ export const AdminAssetManagerPage: React.FC = () => {
                         feedback("tap");
                         setPositionTarget(item);
                       }}
-                      className="px-2 py-1.5 rounded-xl border-2 border-[#552416] bg-[#BCEBFF] text-[#174A6B] text-[11px] font-extrabold flex items-center justify-center gap-1 cursor-pointer"
+                      className="px-1.5 py-1.5 rounded-xl border-2 border-[#552416] bg-[#BCEBFF] text-[#174A6B] text-[10px] font-extrabold flex items-center justify-center gap-0.5 cursor-pointer"
                     >
-                      <Move className="w-3.5 h-3.5" />
+                      <Move className="w-3.5 h-3.5 shrink-0" />
                       <span>VỊ TRÍ</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={isBusy}
+                      onClick={() => {
+                        feedback("tap");
+                        setAnimationTarget(item);
+                      }}
+                      className="px-1.5 py-1.5 rounded-xl border-2 border-[#552416] bg-[#E3D1FF] text-[#4B207E] text-[10px] font-extrabold flex items-center justify-center gap-0.5 cursor-pointer"
+                    >
+                      <Play className="w-3.5 h-3.5 shrink-0" />
+                      <span>ĐỘNG</span>
                     </button>
 
                     <button
@@ -488,9 +522,9 @@ export const AdminAssetManagerPage: React.FC = () => {
                         feedback("tap");
                         setDeleteTarget(item);
                       }}
-                      className="px-2 py-1.5 rounded-xl border-2 border-[#552416] bg-[#F8ADAD] text-[#7D1916] text-[11px] font-extrabold flex items-center justify-center gap-1 cursor-pointer"
+                      className="px-1.5 py-1.5 rounded-xl border-2 border-[#552416] bg-[#F8ADAD] text-[#7D1916] text-[10px] font-extrabold flex items-center justify-center gap-0.5 cursor-pointer"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-3.5 h-3.5 shrink-0" />
                       <span>XÓA</span>
                     </button>
                   </div>
@@ -516,6 +550,21 @@ export const AdminAssetManagerPage: React.FC = () => {
         allAssets={items}
         onClose={() => setPositionTarget(null)}
         onSaved={syncAfterMutation}
+      />
+
+      {/* Animation Editor */}
+      <AssetAnimationModal
+        asset={animationTarget}
+        allAssets={items}
+        onClose={() => setAnimationTarget(null)}
+        onSaved={syncAfterMutation}
+      />
+
+      {/* Preview Combination Mode */}
+      <AdminCombinationModal
+        open={comboOpen}
+        allAssets={items}
+        onClose={() => setComboOpen(false)}
       />
 
       {/* Modal Sửa thông tin vật phẩm */}

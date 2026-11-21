@@ -105,13 +105,15 @@ describe("Giao diện AI LÀ GIÁN ĐIỆP – DATHOINEEE", () => {
     expect(outer).toHaveClass("overflow-visible");
 
     const avatarImg = screen.getByAltText("Mèo con tam thể");
-    const circleWrapper = avatarImg.parentElement as HTMLElement;
+    const circleWrapper = avatarImg.parentElement?.parentElement as HTMLElement;
     expect(circleWrapper).toHaveClass("rounded-full", "overflow-hidden");
     expect(circleWrapper.style.zIndex).toBe("20");
 
-    const accessoryImgs = container.querySelectorAll('img[aria-hidden="true"]');
-    expect(accessoryImgs.length).toBe(4);
-    const zIndexes = Array.from(accessoryImgs).map((el) =>
+    const accessoryLayers = Array.from(
+      outer.querySelectorAll(':scope > div[aria-hidden="true"]')
+    ).filter((el) => Number((el as HTMLElement).style.zIndex) !== 5);
+    expect(accessoryLayers.length).toBe(4);
+    const zIndexes = accessoryLayers.map((el) =>
       Number((el as HTMLElement).style.zIndex)
     );
     // Cánh z_index=10 < avatar=20; head=32, effects=40, other=45 nằm phía trên
@@ -169,7 +171,7 @@ describe("Giao diện AI LÀ GIÁN ĐIỆP – DATHOINEEE", () => {
 
     // Chọn Cánh thiên thần ở tab WINGS
     fireEvent.click(screen.getByRole("tab", { name: /WINGS/i }));
-    fireEvent.click(screen.getByRole("button", { name: /Cánh thiên thần/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Cánh thiên thần trắng/i }));
 
     // Đổi sang Avatar Mèo con phải giữ nguyên phụ kiện vừa chọn
     fireEvent.click(screen.getByRole("tab", { name: /AVATAR/i }));
@@ -269,5 +271,99 @@ describe("Giao diện AI LÀ GIÁN ĐIỆP – DATHOINEEE", () => {
     fireEvent.click(screen.getByRole("button", { name: /CANCEL/i }));
     expect(onClose).toHaveBeenCalled();
     expect(onConfirm).toHaveBeenCalledTimes(1);
+  });
+
+  it("Expansion Pack 01 có đủ 50 tài nguyên mới (10 avatar + 40 phụ kiện), tổng 94 không trùng ID và 100% có animation", () => {
+    const uniqueIds = new Set(FALLBACK_AVATAR_ASSETS.map((a) => a.id));
+    expect(uniqueIds.size).toBe(FALLBACK_AVATAR_ASSETS.length);
+    expect(FALLBACK_AVATAR_ASSETS.length).toBe(94);
+
+    const newAvatars = FALLBACK_AVATAR_ASSETS.filter(
+      (a) => a.category === "avatar" && a.id.startsWith("avatar_exp_")
+    );
+    const newHeads = FALLBACK_AVATAR_ASSETS.filter(
+      (a) => a.category === "head" && a.id.startsWith("head_exp_")
+    );
+    const newWings = FALLBACK_AVATAR_ASSETS.filter(
+      (a) => a.category === "wings" && a.id.startsWith("wings_exp_")
+    );
+    const newEffects = FALLBACK_AVATAR_ASSETS.filter(
+      (a) => a.category === "effects" && a.id.startsWith("effects_exp_")
+    );
+    const newOthers = FALLBACK_AVATAR_ASSETS.filter(
+      (a) => a.category === "other" && a.id.startsWith("other_exp_")
+    );
+
+    expect(newAvatars.length).toBe(10);
+    expect(newHeads.length).toBe(10);
+    expect(newWings.length).toBe(10);
+    expect(newEffects.length).toBe(10);
+    expect(newOthers.length).toBe(10);
+
+    for (const item of FALLBACK_AVATAR_ASSETS) {
+      expect(item.animation).toBeDefined();
+      expect(item.animation?.enabled).toBe(true);
+      expect(item.animation?.duration).toBeGreaterThanOrEqual(400);
+    }
+  });
+
+  it("LayeredAvatar chạy đồng thời chớp mắt thật, vỗ cánh tách đôi và giảm particle ở chế độ LOW", () => {
+    const { container, rerender } = render(
+      <AppSettingsProvider>
+        <AvatarCatalogProvider>
+          <LayeredAvatar
+            size={96}
+            performanceOverride="high"
+            config={{
+              avatarId: "avatar_exp_03",
+              headId: "head_exp_06_crystal_crown",
+              wingsId: "wings_exp_01_phoenix",
+              effectsId: "effects_exp_09_star_ring",
+              otherIds: ["other_exp_01_mini_cat", "other_exp_03_slime"],
+            }}
+          />
+        </AvatarCatalogProvider>
+      </AppSettingsProvider>
+    );
+
+    // Chớp mắt thật trên từng mắt (không làm mờ toàn avatar)
+    expect(container.querySelectorAll(".chibi-eyelid").length).toBe(2);
+    // Đôi cánh tách lớp trái + phải độc lập
+    expect(container.querySelector(".chibi-anim-wing-left")).toBeInTheDocument();
+    expect(container.querySelector(".chibi-anim-wing-right")).toBeInTheDocument();
+    // Hiệu ứng & phụ kiện có hạt ở chế độ HIGH
+    expect(container.querySelectorAll('[class*="chibi-particle-"]').length).toBeGreaterThan(0);
+
+    // Chế độ LOW vẫn giữ animation cơ bản cho cánh/avatar nhưng tắt particle nặng
+    rerender(
+      <AppSettingsProvider>
+        <AvatarCatalogProvider>
+          <LayeredAvatar
+            size={96}
+            performanceOverride="low"
+            config={{
+              avatarId: "avatar_exp_03",
+              headId: "head_exp_06_crystal_crown",
+              wingsId: "wings_exp_01_phoenix",
+              effectsId: "effects_exp_09_star_ring",
+              otherIds: ["other_exp_01_mini_cat"],
+            }}
+          />
+        </AvatarCatalogProvider>
+      </AppSettingsProvider>
+    );
+
+    expect(container.querySelector(".chibi-anim-wing-left")).toBeInTheDocument();
+    expect(container.querySelectorAll('[class*="chibi-particle-"]').length).toBe(0);
+  });
+
+  it("Cài đặt cho phép chuyển 3 mức hiệu năng hoạt ảnh THẤP / VỪA / CAO", () => {
+    renderAt("/settings");
+    const highBtn = screen.getByRole("button", { name: "CAO" });
+    const lowBtn = screen.getByRole("button", { name: "THẤP" });
+    fireEvent.click(highBtn);
+    expect(document.documentElement.getAttribute("data-quality")).toBe("high");
+    fireEvent.click(lowBtn);
+    expect(document.documentElement.getAttribute("data-quality")).toBe("low");
   });
 });

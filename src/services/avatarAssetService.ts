@@ -5,7 +5,13 @@ import {
   requireSupabase,
   supabase,
 } from "./supabase";
-import type { AssetCategory, AvatarAsset, AvatarConfig } from "../types/game";
+import type {
+  AssetAnimationConfig,
+  AssetCategory,
+  AvatarAsset,
+  AvatarConfig,
+} from "../types/game";
+import { coerceAnimationConfig } from "../animation/animationEngine";
 import { FALLBACK_AVATAR_ASSETS } from "../utils/avatars";
 
 const MAX_UPLOAD_BYTES = 2 * 1024 * 1024; // 2MB
@@ -45,10 +51,11 @@ export async function fetchPublicAvatarAssets(): Promise<AvatarAsset[]> {
 }
 
 export function coerceAvatarAsset(row: Record<string, unknown>): AvatarAsset {
+  const category = (row.category as AssetCategory) ?? "other";
   return {
     id: String(row.id ?? ""),
     name: String(row.name ?? ""),
-    category: (row.category as AssetCategory) ?? "other",
+    category,
     image_url: String(row.image_url ?? ""),
     storage_path: typeof row.storage_path === "string" ? row.storage_path : null,
     description: String(row.description ?? ""),
@@ -58,6 +65,7 @@ export function coerceAvatarAsset(row: Record<string, unknown>): AvatarAsset {
     position_y: Number(row.position_y ?? 0),
     z_index: Number(row.z_index ?? 30),
     is_builtin: Boolean(row.is_builtin ?? false),
+    animation: coerceAnimationConfig(row.animation, category),
     created_at: String(row.created_at ?? ""),
     updated_at: String(row.updated_at ?? ""),
   };
@@ -124,6 +132,7 @@ export interface CreateAvatarAssetInput {
   position_x?: number;
   position_y?: number;
   z_index?: number;
+  animation?: AssetAnimationConfig;
 }
 
 export async function adminCreateAvatarAsset(

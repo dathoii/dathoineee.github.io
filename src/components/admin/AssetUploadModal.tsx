@@ -8,6 +8,7 @@ import {
   slugifyAssetId,
 } from "../../services/avatarAssetService";
 import type { AssetCategory } from "../../types/game";
+import { getDefaultAnimationForCategory } from "../../animation/animationEngine";
 import { ASSET_CATEGORIES_META, CATEGORY_PRESET_MAP } from "./assetManagerPresets";
 
 interface UploadDraftItem {
@@ -175,6 +176,7 @@ export const AssetUploadModal: React.FC<AssetUploadModalProps> = ({
             position_x: preset.position_x,
             position_y: preset.position_y,
             z_index: preset.z_index,
+            animation: getDefaultAnimationForCategory(item.category),
           });
           successCount += 1;
         } catch (err) {

@@ -1,4 +1,5 @@
 import avatarManifest from "../data/avatar-manifest.json";
+import { coerceAnimationConfig } from "../animation/animationEngine";
 
 import catAnimals from "../assets/icons/cat-animals.png";
 import catEntertainment from "../assets/icons/cat-entertainment.png";
@@ -10,6 +11,7 @@ import catPlaces from "../assets/icons/cat-places.png";
 import catSports from "../assets/icons/cat-sports.png";
 
 import type {
+  AssetAnimationConfig,
   AssetCategory,
   AvatarAsset,
   AvatarConfig,
@@ -31,6 +33,7 @@ interface ManifestEntry {
   position_x: number;
   position_y: number;
   z_index: number;
+  animation?: Partial<AssetAnimationConfig>;
 }
 
 const BUNDLED_ASSET_URLS = import.meta.glob<string>(
@@ -83,6 +86,7 @@ export const FALLBACK_AVATAR_ASSETS: AvatarAsset[] = ALL_MANIFEST_ENTRIES.map(
     position_y: entry.position_y,
     z_index: entry.z_index,
     is_builtin: true,
+    animation: coerceAnimationConfig(entry.animation, entry.category),
     created_at: "",
     updated_at: "",
   })

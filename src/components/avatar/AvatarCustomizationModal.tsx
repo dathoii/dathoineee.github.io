@@ -12,6 +12,11 @@ import {
 } from "lucide-react";
 import { useAvatarCatalog } from "../../contexts/AvatarCatalogContext";
 import { useAppSettings } from "../../contexts/AppSettingsContext";
+import {
+  buildAnimationVars,
+  coerceAnimationConfig,
+  getAnimationClassName,
+} from "../../animation/animationEngine";
 import type { AssetCategory, AvatarConfig } from "../../types/game";
 import {
   DEFAULT_AVATAR_CONFIG,
@@ -246,6 +251,13 @@ export const AvatarCustomizationModal: React.FC<AvatarCustomizationModalProps> =
 
             {itemsInTab.map((item) => {
               const selected = isSelected(item.id);
+              const tileAnim = coerceAnimationConfig(item.animation, item.category);
+              const tileAnimClass = tileAnim.enabled
+                ? getAnimationClassName(tileAnim)
+                : "";
+              const tileAnimVars = tileAnim.enabled
+                ? buildAnimationVars(tileAnim, "medium")
+                : undefined;
               return (
                 <button
                   key={item.id}
@@ -259,22 +271,27 @@ export const AvatarCustomizationModal: React.FC<AvatarCustomizationModalProps> =
                   }`}
                 >
                   {selected ? (
-                    <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#1EA454] border-2 border-white flex items-center justify-center text-white shadow">
+                    <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#1EA454] border-2 border-white flex items-center justify-center text-white shadow z-10">
                       <Check className="w-3 h-3 stroke-[3.5]" />
                     </span>
                   ) : null}
 
                   <div className="w-14 h-14 flex items-center justify-center">
-                    <img
-                      src={resolveAssetImageUrl(item.image_url)}
-                      alt={item.name}
-                      draggable={false}
-                      className={`max-w-full max-h-full object-contain ${
-                        item.category === "avatar"
-                          ? "rounded-full border-2 border-[#552416] w-13 h-13 object-cover"
-                          : ""
-                      }`}
-                    />
+                    <div
+                      className={`w-13 h-13 flex items-center justify-center ${tileAnimClass}`}
+                      style={tileAnimVars}
+                    >
+                      <img
+                        src={resolveAssetImageUrl(item.image_url)}
+                        alt={item.name}
+                        draggable={false}
+                        className={`max-w-full max-h-full object-contain ${
+                          item.category === "avatar"
+                            ? "rounded-full border-2 border-[#552416] w-13 h-13 object-cover"
+                            : ""
+                        }`}
+                      />
+                    </div>
                   </div>
                   <span className="font-display font-extrabold text-[11px] leading-tight text-center text-[#4A1D12] line-clamp-2">
                     {item.name}

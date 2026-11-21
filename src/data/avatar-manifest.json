@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "avatars": [
     {
       "id": "avatar_01",
@@ -12,7 +12,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2500,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_02",
@@ -25,7 +38,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 3000,
+        "delay": 100,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 2.8,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_03",
@@ -38,7 +64,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2800,
+        "delay": 50,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 2.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_04",
@@ -51,7 +90,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 2.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_05",
@@ -64,7 +116,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2700,
+        "delay": 80,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.6,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_06",
@@ -77,7 +142,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 0,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 3.2,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_07",
@@ -90,7 +168,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2100,
+        "delay": 40,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar_08",
@@ -103,7 +194,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 3300,
+        "delay": 120,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 2.2,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-dino",
@@ -116,7 +220,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2300,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.4,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-cat",
@@ -129,7 +246,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2500,
+        "delay": 60,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-green-curly",
@@ -142,7 +272,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 2.6,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-blue-glasses",
@@ -155,7 +298,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2900,
+        "delay": 100,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 2.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-bunny",
@@ -168,7 +324,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 2.8,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-blue-shades",
@@ -181,7 +350,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 3100,
+        "delay": 50,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 2.2,
+        "amplitude": 0.8,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-afro-shades",
@@ -194,7 +376,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 0,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 2.4,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-blonde-boy",
@@ -207,7 +402,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 40,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.8,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-red-glasses",
@@ -220,7 +428,20 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 3200,
+        "delay": 100,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 2.2,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     },
     {
       "id": "avatar-orange-kimono",
@@ -233,7 +454,280 @@
       "scale": 1.0,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 20
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2700,
+        "delay": 0,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 2.6,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_01",
+      "name": "Tím hai búi tinh nghịch",
+      "shortLabel": "Hai búi tím",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_01.png",
+      "description": "Nhân vật tóc tím hai búi, nháy mắt tinh nghịch",
+      "ringColor": "#E6D0FF",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2150,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 3.4,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_02",
+      "name": "Tóc bạc lạnh lùng",
+      "shortLabel": "Tóc bạc",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_02.png",
+      "description": "Nhân vật tóc bạc trắng, mắt xanh phong thái cool",
+      "ringColor": "#CFE2FF",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 3400,
+        "delay": 120,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 1.8,
+        "amplitude": 0.8,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_03",
+      "name": "Xanh bạc hà tàn nhang",
+      "shortLabel": "Bạc hà",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_03.png",
+      "description": "Nhân vật tóc xanh bạc hà có tàn nhang thân thiện",
+      "ringColor": "#FFE9BA",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 60,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.8,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_04",
+      "name": "Hồng hai đuôi vui vẻ",
+      "shortLabel": "Hai đuôi",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_04.png",
+      "description": "Nhân vật tóc hồng hai đuôi nơ vàng rạng rỡ",
+      "ringColor": "#C9F5E3",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 1950,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 3.6,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_05",
+      "name": "Tóc xanh đen phong cách",
+      "shortLabel": "Cool ngầu",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_05.png",
+      "description": "Nhân vật tóc xanh đen rối đeo băng đô thể thao",
+      "ringColor": "#FAD4DC",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 3200,
+        "delay": 80,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 2.0,
+        "amplitude": 0.85,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_06",
+      "name": "Tóc cam năng động",
+      "shortLabel": "Cam ngắn",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_06.png",
+      "description": "Nhân vật tóc cam ngắn tràn đầy năng lượng",
+      "ringColor": "#CBEBFF",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2050,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 1.05,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_07",
+      "name": "Lavender mộng mơ",
+      "shortLabel": "Lavender",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_07.png",
+      "description": "Nhân vật tóc tím lavender dịu dàng mộng mơ",
+      "ringColor": "#F9DBF0",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 3300,
+        "delay": 100,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 2.5,
+        "amplitude": 0.95,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_08",
+      "name": "Nâu bồng ấm áp",
+      "shortLabel": "Nâu bồng",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_08.png",
+      "description": "Nhân vật tóc nâu xoăn bồng thân thiện",
+      "ringColor": "#C9F1CB",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2700,
+        "delay": 40,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 2.4,
+        "amplitude": 0.95,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_09",
+      "name": "Xanh ngọc cá tính",
+      "shortLabel": "Xanh ngọc",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_09.png",
+      "description": "Nhân vật tóc xanh ngọc dựng kẹp sao cá tính",
+      "ringColor": "#FFD9C7",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "idle",
+        "enabled": true,
+        "duration": 2500,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 3.2,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
+    },
+    {
+      "id": "avatar_exp_10",
+      "name": "Vàng xoăn tươi cười",
+      "shortLabel": "Vàng xoăn",
+      "category": "avatar",
+      "assetPath": "assets/avatars/avatar_exp_10.png",
+      "description": "Nhân vật tóc vàng xoăn vui vẻ áo thủy thủ",
+      "ringColor": "#CBDDFF",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 20,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.8,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none",
+        "blinkEnabled": true
+      }
     }
   ],
   "accessories": [
@@ -246,7 +740,19 @@
       "scale": 0.72,
       "position_x": 0,
       "position_y": -52,
-      "z_index": 32
+      "z_index": 32,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 1.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "head_02_crown_pink",
@@ -257,7 +763,19 @@
       "scale": 0.72,
       "position_x": 0,
       "position_y": -50,
-      "z_index": 32
+      "z_index": 32,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2300,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 1.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "heart"
+      }
     },
     {
       "id": "head_03_witch_hat",
@@ -268,7 +786,19 @@
       "scale": 0.96,
       "position_x": 0,
       "position_y": -52,
-      "z_index": 32
+      "z_index": 32,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 5.5,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "star"
+      }
     },
     {
       "id": "head-cat-ears",
@@ -279,7 +809,19 @@
       "scale": 0.95,
       "position_x": 0,
       "position_y": -38,
-      "z_index": 30
+      "z_index": 30,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 1900,
+        "delay": 80,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 5.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "head_05_bunny_ears",
@@ -290,7 +832,19 @@
       "scale": 0.95,
       "position_x": 0,
       "position_y": -48,
-      "z_index": 30
+      "z_index": 30,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 1800,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "head_06_devil_horns",
@@ -301,7 +855,19 @@
       "scale": 0.88,
       "position_x": 0,
       "position_y": -38,
-      "z_index": 30
+      "z_index": 30,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "fire"
+      }
     },
     {
       "id": "head-detective-hat",
@@ -312,7 +878,19 @@
       "scale": 1.02,
       "position_x": 0,
       "position_y": -42,
-      "z_index": 32
+      "z_index": 32,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2800,
+        "delay": 0,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 3.5,
+        "amplitude": 0.8,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "head-sunglasses",
@@ -323,7 +901,19 @@
       "scale": 0.78,
       "position_x": 0,
       "position_y": -4,
-      "z_index": 34
+      "z_index": 34,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2900,
+        "delay": 0,
+        "intensity": 0.8,
+        "direction": "alternate",
+        "rotation": 0.0,
+        "amplitude": 0.8,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "wings-angel",
@@ -334,7 +924,19 @@
       "scale": 1.95,
       "position_x": 0,
       "position_y": -4,
-      "z_index": 10
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 9.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "wings-devil",
@@ -345,7 +947,19 @@
       "scale": 1.95,
       "position_x": 0,
       "position_y": -2,
-      "z_index": 10
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1750,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 11.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "wings-butterfly",
@@ -356,7 +970,19 @@
       "scale": 1.85,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 10
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1350,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 14.0,
+        "amplitude": 1.05,
+        "loop": true,
+        "particleKind": "petal"
+      }
     },
     {
       "id": "wings_04_crystal_fairy",
@@ -367,7 +993,19 @@
       "scale": 1.9,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 10
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1850,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 10.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "wings_05_rainbow",
@@ -378,7 +1016,19 @@
       "scale": 1.95,
       "position_x": 0,
       "position_y": -2,
-      "z_index": 10
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1650,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 11.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "star"
+      }
     },
     {
       "id": "wings_06_golden_angel",
@@ -389,7 +1039,19 @@
       "scale": 1.95,
       "position_x": 0,
       "position_y": -2,
-      "z_index": 10
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 2100,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 9.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "effects_01_halo",
@@ -400,7 +1062,19 @@
       "scale": 0.92,
       "position_x": 0,
       "position_y": -58,
-      "z_index": 42
+      "z_index": 42,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 0.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "effect-hearts",
@@ -411,7 +1085,19 @@
       "scale": 1.48,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 40
+      "z_index": 40,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 0.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "heart"
+      }
     },
     {
       "id": "effect-sparkles",
@@ -422,7 +1108,19 @@
       "scale": 1.5,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 40
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 8500,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "effects_04_magic_circle",
@@ -433,7 +1131,19 @@
       "scale": 1.42,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 40
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 10000,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "effects_05_rainbow",
@@ -444,7 +1154,19 @@
       "scale": 1.45,
       "position_x": 0,
       "position_y": -36,
-      "z_index": 12
+      "z_index": 12,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2800,
+        "delay": 0,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 1.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "star"
+      }
     },
     {
       "id": "effects_06_confetti",
@@ -455,7 +1177,19 @@
       "scale": 1.5,
       "position_x": 0,
       "position_y": 0,
-      "z_index": 40
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 9500,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "star"
+      }
     },
     {
       "id": "other_01_bow",
@@ -466,7 +1200,19 @@
       "scale": 0.48,
       "position_x": 0,
       "position_y": 44,
-      "z_index": 45
+      "z_index": 45,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 5.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "other_02_scarf",
@@ -477,7 +1223,19 @@
       "scale": 0.85,
       "position_x": 0,
       "position_y": 42,
-      "z_index": 36
+      "z_index": 36,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2700,
+        "delay": 100,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 3.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "other-star-badge",
@@ -488,7 +1246,19 @@
       "scale": 0.44,
       "position_x": 38,
       "position_y": 36,
-      "z_index": 45
+      "z_index": 45,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2300,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "other_04_ghost_pet",
@@ -499,7 +1269,19 @@
       "scale": 0.56,
       "position_x": -48,
       "position_y": 26,
-      "z_index": 46
+      "z_index": 46,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 80,
+        "intensity": 1.15,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 1.2,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
     },
     {
       "id": "other_05_chick_pet",
@@ -510,7 +1292,19 @@
       "scale": 0.54,
       "position_x": 48,
       "position_y": 28,
-      "z_index": 46
+      "z_index": 46,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 1700,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 3.5,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "none"
+      }
     },
     {
       "id": "other-magnifier",
@@ -521,7 +1315,939 @@
       "scale": 0.54,
       "position_x": -38,
       "position_y": 34,
-      "z_index": 45
+      "z_index": 45,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 60,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 7.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "head_exp_01_prince",
+      "name": "Mũ hoàng tử",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_01_prince.png",
+      "description": "Mũ hoàng tử xanh hoàng gia gắn lông vũ trắng",
+      "scale": 0.92,
+      "position_x": 0,
+      "position_y": -44,
+      "z_index": 32,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 0,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "head_exp_02_chef",
+      "name": "Mũ đầu bếp",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_02_chef.png",
+      "description": "Mũ đầu bếp trắng phồng Chibi vui nhộn",
+      "scale": 0.92,
+      "position_x": 0,
+      "position_y": -48,
+      "z_index": 32,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 2.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "head_exp_03_pilot",
+      "name": "Mũ phi công",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_03_pilot.png",
+      "description": "Mũ phi công nâu kèm kính bảo hộ xanh",
+      "scale": 1.04,
+      "position_x": 0,
+      "position_y": -34,
+      "z_index": 32,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 0,
+        "intensity": 0.85,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 0.8,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "head_exp_04_birthday",
+      "name": "Mũ sinh nhật",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_04_birthday.png",
+      "description": "Mũ chóp sinh nhật nhiều màu có cục bông",
+      "scale": 0.78,
+      "position_x": 0,
+      "position_y": -52,
+      "z_index": 32,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 1900,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 4.5,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "star"
+      }
+    },
+    {
+      "id": "head_exp_05_mushroom",
+      "name": "Mũ nấm đỏ",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_05_mushroom.png",
+      "description": "Mũ nấm đỏ chấm bi trắng đáng yêu",
+      "scale": 1.0,
+      "position_x": 0,
+      "position_y": -42,
+      "z_index": 32,
+      "animation": {
+        "type": "scale",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 0,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 1.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "head_exp_06_crystal_crown",
+      "name": "Vương miện pha lê",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_06_crystal_crown.png",
+      "description": "Vương miện băng pha lê lấp lánh",
+      "scale": 0.78,
+      "position_x": 0,
+      "position_y": -50,
+      "z_index": 32,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2100,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 1.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "head_exp_07_fox_ears",
+      "name": "Tai cáo cam",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_07_fox_ears.png",
+      "description": "Băng đô tai cáo rậm lông đáng yêu",
+      "scale": 0.96,
+      "position_x": 0,
+      "position_y": -40,
+      "z_index": 30,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 1850,
+        "delay": 60,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 5.5,
+        "amplitude": 0.95,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "head_exp_08_bear_ears",
+      "name": "Tai gấu nâu",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_08_bear_ears.png",
+      "description": "Băng đô tai gấu nâu tròn mềm mại",
+      "scale": 0.95,
+      "position_x": 0,
+      "position_y": -38,
+      "z_index": 30,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 2100,
+        "delay": 40,
+        "intensity": 0.95,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "head_exp_09_dragon_horns",
+      "name": "Sừng rồng ngọc",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_09_dragon_horns.png",
+      "description": "Cặp sừng rồng xanh ngọc phát sáng năng lượng",
+      "scale": 0.94,
+      "position_x": 0,
+      "position_y": -42,
+      "z_index": 30,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 2.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "electric"
+      }
+    },
+    {
+      "id": "head_exp_10_angel_halo",
+      "name": "Halo thiên thần",
+      "category": "head",
+      "assetPath": "assets/accessories/head/head_exp_10_angel_halo.png",
+      "description": "Vòng sáng thiên thần lấp lánh phía trên đầu",
+      "scale": 0.85,
+      "position_x": 0,
+      "position_y": -58,
+      "z_index": 36,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "wings_exp_01_phoenix",
+      "name": "Cánh phượng hoàng",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_01_phoenix.png",
+      "description": "Đôi cánh lửa phượng hoàng rực rỡ",
+      "scale": 1.98,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1550,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 12.0,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "fire"
+      }
+    },
+    {
+      "id": "wings_exp_02_dragon",
+      "name": "Cánh rồng xanh",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_02_dragon.png",
+      "description": "Đôi cánh rồng mạnh mẽ phong cách Chibi",
+      "scale": 1.98,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1700,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 10.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "wings_exp_03_ice",
+      "name": "Cánh băng tuyết",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_03_ice.png",
+      "description": "Đôi cánh tinh thể băng phản chiếu ánh sáng",
+      "scale": 1.92,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 9.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "snow"
+      }
+    },
+    {
+      "id": "wings_exp_04_fire",
+      "name": "Cánh lửa rực cháy",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_04_fire.png",
+      "description": "Đôi cánh ngọn lửa cam vàng rực rỡ",
+      "scale": 1.96,
+      "position_x": 0,
+      "position_y": -2,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1500,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 11.0,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "fire"
+      }
+    },
+    {
+      "id": "wings_exp_05_gold_angel",
+      "name": "Cánh thiên thần vàng",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_05_gold_angel.png",
+      "description": "Đôi cánh thiên thần ánh vàng kim sang trọng",
+      "scale": 1.98,
+      "position_x": 0,
+      "position_y": -2,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 2050,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 9.5,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "wings_exp_06_black_bat",
+      "name": "Cánh dơi đen",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_06_black_bat.png",
+      "description": "Đôi cánh dơi gothic thanh mảnh",
+      "scale": 1.96,
+      "position_x": 0,
+      "position_y": 2,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1650,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 11.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "wings_exp_07_flower",
+      "name": "Cánh hoa đào",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_07_flower.png",
+      "description": "Đôi cánh kết từ những cánh hoa hồng mềm mại",
+      "scale": 1.9,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1800,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 12.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "petal"
+      }
+    },
+    {
+      "id": "wings_exp_08_blue_crystal",
+      "name": "Cánh pha lê xanh",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_08_blue_crystal.png",
+      "description": "Đôi cánh pha lê ngọc lam đa diện",
+      "scale": 1.94,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1950,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 9.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "wings_exp_09_cosmos",
+      "name": "Cánh vũ trụ",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_09_cosmos.png",
+      "description": "Đôi cánh bầu trời đêm đầy sao lấp lánh",
+      "scale": 1.96,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 2150,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 8.5,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "cosmos"
+      }
+    },
+    {
+      "id": "wings_exp_10_leaf",
+      "name": "Cánh lá xanh",
+      "category": "wings",
+      "assetPath": "assets/accessories/wings/wings_exp_10_leaf.png",
+      "description": "Đôi cánh lá thiên nhiên xanh tươi mát",
+      "scale": 1.92,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 10,
+      "animation": {
+        "type": "wing_flap",
+        "enabled": true,
+        "duration": 1850,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 10.5,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "leaf"
+      }
+    },
+    {
+      "id": "effects_exp_01_rainbow_aura",
+      "name": "Hào quang cầu vồng",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_01_rainbow_aura.png",
+      "description": "Vòng ánh sáng bảy sắc xoay quanh avatar",
+      "scale": 1.48,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 7000,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "effects_exp_02_electric_ring",
+      "name": "Vòng điện xanh",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_02_electric_ring.png",
+      "description": "Vòng tia điện cao áp xoay lóe sáng",
+      "scale": 1.48,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 6000,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "electric"
+      }
+    },
+    {
+      "id": "effects_exp_03_blue_fire",
+      "name": "Lửa xanh ma thuật",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_03_blue_fire.png",
+      "description": "Ngọn lửa xanh ngọc bùng cháy quanh viền",
+      "scale": 1.48,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 1800,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "fire"
+      }
+    },
+    {
+      "id": "effects_exp_04_snow",
+      "name": "Tuyết rơi lấp lánh",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_04_snow.png",
+      "description": "Những bông tuyết trắng rơi nhẹ nhàng quanh avatar",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 3200,
+        "delay": 0,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 6.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "snow"
+      }
+    },
+    {
+      "id": "effects_exp_05_bubbles",
+      "name": "Bong bóng bay",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_05_bubbles.png",
+      "description": "Bong bóng xà phòng phản chiếu nhẹ nhàng bay lên",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 0.0,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "bubble"
+      }
+    },
+    {
+      "id": "effects_exp_06_flowers",
+      "name": "Hoa bay quanh",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_06_flowers.png",
+      "description": "Cánh hoa xuân bay xoay tròn quanh nhân vật",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 9000,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "petal"
+      }
+    },
+    {
+      "id": "effects_exp_07_lightning",
+      "name": "Tia sét vàng",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_07_lightning.png",
+      "description": "Những tia chớp vàng xuất hiện theo chu kỳ",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 1900,
+        "delay": 0,
+        "intensity": 1.15,
+        "direction": "alternate",
+        "rotation": 5.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "electric"
+      }
+    },
+    {
+      "id": "effects_exp_08_cosmos_light",
+      "name": "Ánh sáng vũ trụ",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_08_cosmos_light.png",
+      "description": "Hành tinh nhỏ và tinh vân xoay quanh khung",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 10500,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "normal",
+        "rotation": 360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "cosmos"
+      }
+    },
+    {
+      "id": "effects_exp_09_star_ring",
+      "name": "Vòng sao vàng",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_09_star_ring.png",
+      "description": "Vòng tròn sao vàng xoay quanh rực rỡ",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "rotation",
+        "enabled": true,
+        "duration": 8000,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "reverse",
+        "rotation": -360.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "star"
+      }
+    },
+    {
+      "id": "effects_exp_10_glow_hearts",
+      "name": "Trái tim phát sáng",
+      "category": "effects",
+      "assetPath": "assets/accessories/effects/effects_exp_10_glow_hearts.png",
+      "description": "Vòng trái tim hồng phát sáng nhấp nháy",
+      "scale": 1.5,
+      "position_x": 0,
+      "position_y": 0,
+      "z_index": 40,
+      "animation": {
+        "type": "scale",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 0.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "heart"
+      }
+    },
+    {
+      "id": "other_exp_01_mini_cat",
+      "name": "Mèo mini",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_01_mini_cat.png",
+      "description": "Bé mèo cam ngồi vẫy đuôi cạnh avatar",
+      "scale": 0.56,
+      "position_x": -48,
+      "position_y": 28,
+      "z_index": 46,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 1850,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "other_exp_02_mini_bunny",
+      "name": "Thỏ mini",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_02_mini_bunny.png",
+      "description": "Bé thỏ trắng nhảy nhót vẫy tai dễ thương",
+      "scale": 0.56,
+      "position_x": 48,
+      "position_y": 28,
+      "z_index": 46,
+      "animation": {
+        "type": "bounce",
+        "enabled": true,
+        "duration": 1700,
+        "delay": 80,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "none"
+      }
+    },
+    {
+      "id": "other_exp_03_slime",
+      "name": "Slime xanh nảy",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_03_slime.png",
+      "description": "Bé Slime xanh ngọc đàn hồi co giãn vui mắt",
+      "scale": 0.5,
+      "position_x": -44,
+      "position_y": 34,
+      "z_index": 46,
+      "animation": {
+        "type": "scale",
+        "enabled": true,
+        "duration": 1600,
+        "delay": 0,
+        "intensity": 1.2,
+        "direction": "alternate",
+        "rotation": 0.0,
+        "amplitude": 1.2,
+        "loop": true,
+        "particleKind": "bubble"
+      }
+    },
+    {
+      "id": "other_exp_04_mini_robot",
+      "name": "Robot mini",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_04_mini_robot.png",
+      "description": "Bé Robot mắt LED xanh lơ lửng bên phải",
+      "scale": 0.54,
+      "position_x": 48,
+      "position_y": -16,
+      "z_index": 46,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2000,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 3.5,
+        "amplitude": 1.1,
+        "loop": true,
+        "particleKind": "electric"
+      }
+    },
+    {
+      "id": "other_exp_05_shield",
+      "name": "Chiếc khiên vàng",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_05_shield.png",
+      "description": "Khiên hiệp sĩ xanh viền vàng sáng bóng",
+      "scale": 0.5,
+      "position_x": -40,
+      "position_y": 32,
+      "z_index": 45,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2400,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "other_exp_06_diamond_badge",
+      "name": "Huy hiệu kim cương",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_06_diamond_badge.png",
+      "description": "Huy hiệu kim cương xanh tỏa sáng",
+      "scale": 0.44,
+      "position_x": 38,
+      "position_y": 36,
+      "z_index": 45,
+      "animation": {
+        "type": "glow",
+        "enabled": true,
+        "duration": 2100,
+        "delay": 0,
+        "intensity": 1.1,
+        "direction": "alternate",
+        "rotation": 4.0,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "other_exp_07_star_scarf",
+      "name": "Khăn choàng sao",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_07_star_scarf.png",
+      "description": "Khăn choàng tím đính sao vàng bay nhẹ",
+      "scale": 0.86,
+      "position_x": 0,
+      "position_y": 42,
+      "z_index": 36,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2600,
+        "delay": 0,
+        "intensity": 0.9,
+        "direction": "alternate",
+        "rotation": 3.5,
+        "amplitude": 0.9,
+        "loop": true,
+        "particleKind": "star"
+      }
+    },
+    {
+      "id": "other_exp_08_speech_bubble",
+      "name": "Bong bóng thoại",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_08_speech_bubble.png",
+      "description": "Bong bóng chat thả tim lơ lửng phía trên",
+      "scale": 0.54,
+      "position_x": 46,
+      "position_y": -40,
+      "z_index": 46,
+      "animation": {
+        "type": "float",
+        "enabled": true,
+        "duration": 2100,
+        "delay": 0,
+        "intensity": 1.05,
+        "direction": "alternate",
+        "rotation": 3.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "heart"
+      }
+    },
+    {
+      "id": "other_exp_09_toy_sword",
+      "name": "Kiếm đồ chơi",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_09_toy_sword.png",
+      "description": "Thanh kiếm pha lê đồ chơi lấp lánh",
+      "scale": 0.58,
+      "position_x": -42,
+      "position_y": 24,
+      "z_index": 45,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2200,
+        "delay": 0,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 8.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "sparkle"
+      }
+    },
+    {
+      "id": "other_exp_10_mini_bag",
+      "name": "Chiếc túi mini",
+      "category": "other",
+      "assetPath": "assets/accessories/other/other_exp_10_mini_bag.png",
+      "description": "Túi xách hồng pastel xinh xắn đung đưa",
+      "scale": 0.48,
+      "position_x": 38,
+      "position_y": 36,
+      "z_index": 45,
+      "animation": {
+        "type": "sway",
+        "enabled": true,
+        "duration": 2300,
+        "delay": 50,
+        "intensity": 1.0,
+        "direction": "alternate",
+        "rotation": 6.0,
+        "amplitude": 1.0,
+        "loop": true,
+        "particleKind": "none"
+      }
     }
   ]
 }

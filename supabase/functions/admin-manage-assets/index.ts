@@ -6,6 +6,77 @@ import {
 } from "../_shared/supabase.ts";
 
 const ID_PATTERN = /^[a-z0-9][a-z0-9_-]{1,62}$/;
+const ANIMATION_TYPES = new Set([
+  "idle",
+  "blink",
+  "bounce",
+  "float",
+  "sway",
+  "rotation",
+  "glow",
+  "wing_flap",
+  "particle",
+  "scale",
+  "custom",
+]);
+const ANIMATION_DIRECTIONS = new Set(["normal", "reverse", "alternate"]);
+const PARTICLE_KINDS = new Set([
+  "none",
+  "sparkle",
+  "heart",
+  "snow",
+  "bubble",
+  "fire",
+  "electric",
+  "petal",
+  "star",
+  "cosmos",
+  "leaf",
+]);
+
+function clampNumber(val: unknown, min: number, max: number, fallback: number) {
+  const n = Number(val);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, n));
+}
+
+function sanitizeAnimationPayload(raw: unknown, category: string) {
+  const obj = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const defaultType =
+    category === "wings"
+      ? "wing_flap"
+      : category === "effects"
+      ? "rotation"
+      : category === "head"
+      ? "sway"
+      : category === "other"
+      ? "float"
+      : "idle";
+
+  const type = ANIMATION_TYPES.has(String(obj.type)) ? String(obj.type) : defaultType;
+  const direction = ANIMATION_DIRECTIONS.has(String(obj.direction))
+    ? String(obj.direction)
+    : type === "rotation"
+    ? "normal"
+    : "alternate";
+  const particleKind = PARTICLE_KINDS.has(String(obj.particleKind))
+    ? String(obj.particleKind)
+    : "none";
+
+  return {
+    type,
+    enabled: obj.enabled === undefined ? true : Boolean(obj.enabled),
+    duration: Math.round(clampNumber(obj.duration, 400, 15000, category === "effects" ? 7500 : 2400)),
+    delay: Math.round(clampNumber(obj.delay, 0, 5000, 0)),
+    intensity: Number(clampNumber(obj.intensity, 0.1, 2.5, 1).toFixed(2)),
+    direction,
+    rotation: Number(clampNumber(obj.rotation, -360, 360, type === "rotation" ? 360 : 4).toFixed(1)),
+    amplitude: Number(clampNumber(obj.amplitude, 0.1, 2.5, 1).toFixed(2)),
+    loop: obj.loop === undefined ? true : Boolean(obj.loop),
+    ...(obj.blinkEnabled !== undefined ? { blinkEnabled: Boolean(obj.blinkEnabled) } : {}),
+    particleKind,
+  };
+}
 
 function parseAssetPayload(raw: Record<string, unknown>, isCreate: boolean) {
   const id = String(raw?.id ?? "").trim().toLowerCase();
@@ -64,6 +135,7 @@ function parseAssetPayload(raw: Record<string, unknown>, isCreate: boolean) {
       position_x: Number(positionX.toFixed(2)),
       position_y: Number(positionY.toFixed(2)),
       z_index: zIndex,
+      animation: sanitizeAnimationPayload(raw?.animation, category),
     },
   };
 }
@@ -168,6 +240,7 @@ Deno.serve(async (req: Request) => {
         position_x: body?.position_x ?? current.position_x,
         position_y: body?.position_y ?? current.position_y,
         z_index: body?.z_index ?? current.z_index,
+        animation: body?.animation !== undefined ? body.animation : current.animation,
       };
 
       const parsed = parseAssetPayload(merged, false);
@@ -188,6 +261,7 @@ Deno.serve(async (req: Request) => {
           position_x: parsed.data.position_x,
           position_y: parsed.data.position_y,
           z_index: parsed.data.z_index,
+          animation: parsed.data.animation,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id)

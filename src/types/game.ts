@@ -45,6 +45,51 @@ export interface RoomSettings {
 
 export type AssetCategory = "avatar" | "head" | "wings" | "effects" | "other";
 
+export type PerformanceQuality = "low" | "medium" | "high";
+
+export type AnimationType =
+  | "idle"
+  | "blink"
+  | "bounce"
+  | "float"
+  | "sway"
+  | "rotation"
+  | "glow"
+  | "wing_flap"
+  | "particle"
+  | "scale"
+  | "custom";
+
+export type AnimationDirection = "normal" | "reverse" | "alternate";
+
+export type ParticleKind =
+  | "none"
+  | "sparkle"
+  | "heart"
+  | "snow"
+  | "bubble"
+  | "fire"
+  | "electric"
+  | "petal"
+  | "star"
+  | "cosmos"
+  | "leaf";
+
+export interface AssetAnimationConfig {
+  type: AnimationType;
+  enabled: boolean;
+  duration: number;
+  delay: number;
+  intensity: number;
+  direction: AnimationDirection;
+  rotation: number;
+  amplitude: number;
+  loop: boolean;
+  blinkEnabled?: boolean;
+  particleKind?: ParticleKind;
+  customPreset?: string;
+}
+
 export interface AvatarAsset {
   id: string;
   name: string;
@@ -58,6 +103,7 @@ export interface AvatarAsset {
   position_y: number;
   z_index: number;
   is_builtin: boolean;
+  animation?: AssetAnimationConfig;
   created_at: string;
   updated_at: string;
 }
@@ -137,6 +183,7 @@ export interface AppSettings {
   soundEnabled: boolean;
   effectsEnabled: boolean;
   vibrationEnabled: boolean;
+  performanceQuality?: PerformanceQuality;
   theme: "light" | "dark";
   language: "vi";
 }

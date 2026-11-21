@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./animations.css";
 
 :root {
   --bg-sky-top: #98d9ff;

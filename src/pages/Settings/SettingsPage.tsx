@@ -184,6 +184,42 @@ export const SettingsPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Mức chất lượng hoạt ảnh Avatar */}
+        <div className="mt-3 pt-3 border-t-2 border-dashed border-[#552416]/15 flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex items-center gap-2 font-display font-extrabold text-sm">
+            <Sparkles className="w-5 h-5 text-[#E59B14]" />
+            <span>HOẠT ẢNH AVATAR</span>
+          </div>
+          <div className="flex items-center gap-1">
+            {(
+              [
+                { id: "low", label: "THẤP" },
+                { id: "medium", label: "VỪA" },
+                { id: "high", label: "CAO" },
+              ] as const
+            ).map((opt) => {
+              const active = (settings.performanceQuality ?? "medium") === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => {
+                    feedback("tap");
+                    updateSetting("performanceQuality", opt.id);
+                  }}
+                  className={`px-2.5 py-1 rounded-xl border-2 border-[#552416] font-display font-extrabold text-xs cursor-pointer transition-all ${
+                    active
+                      ? "bg-[#ADE7CF] text-[#166A45] shadow-[0_2px_0_#552416]"
+                      : "bg-white/80 text-[#552416]/75"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Ngôn ngữ Tiếng Việt */}
         <div className="mt-3 pt-3 border-t-2 border-dashed border-[#552416]/15 flex items-center justify-between">
           <div className="flex items-center gap-2 font-display font-extrabold text-sm">
