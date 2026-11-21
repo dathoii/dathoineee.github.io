@@ -131,20 +131,25 @@ export const GameStartedPage: React.FC = () => {
   };
 
   const handleEndDiscussion = async () => {
-    if (!roomId || !isHost) return;
+    if (!roomId || !isHost || ending) return;
     setEnding(true);
+    let endedOk = false;
     try {
       await endDiscussion(roomId);
+      endedOk = true;
       feedback("success");
+      navigate(`/room/${roomId}/results`, { replace: true });
       await refresh();
     } catch (err) {
       feedback("alert");
       showToast(
-        err instanceof Error ? err.message : "Không thể kết thúc lượt.",
+        err instanceof Error ? err.message : "Không thể kết thúc ván đấu.",
         "error"
       );
     } finally {
-      setEnding(false);
+      if (!endedOk) {
+        setEnding(false);
+      }
     }
   };
 

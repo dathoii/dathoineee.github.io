@@ -3,10 +3,13 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { AppSettingsProvider } from "../contexts/AppSettingsContext";
 import { AvatarCatalogProvider } from "../contexts/AvatarCatalogContext";
+import { GameStartedPage } from "../pages/GameStarted/GameStartedPage";
 import { RoundResultsPage } from "../pages/RoundResults/RoundResultsPage";
-import type { RoundResultsResponse } from "../types/game";
+import type { RoomStatus, RoundResultsResponse } from "../types/game";
 
 const mockGetRoundResults = vi.fn();
+const mockEndDiscussion = vi.fn();
+let mockRoomStatus: RoomStatus = "round_ended";
 
 const mockPlayers = [
   {
@@ -50,14 +53,14 @@ vi.mock("../hooks/useRoomRealtime", () => ({
     loading: false,
     error: null,
     connectionLost: false,
-    refresh: vi.fn(),
+    refresh: vi.fn().mockResolvedValue(undefined),
     snapshot: {
       room: {
         id: "test-room",
         room_code: "ABC123",
         room_name: "Phòng Test",
         host_id: "user-1",
-        status: "round_ended",
+        status: mockRoomStatus,
         max_players: 8,
         category_filter: "Tất cả",
         difficulty: "medium",
@@ -67,7 +70,21 @@ vi.mock("../hooks/useRoomRealtime", () => ({
       },
       settings: null,
       players: mockPlayers,
-      activeRound: null,
+      currentRound: {
+        id: "round-2",
+        room_id: "test-room",
+        round_number: 2,
+        status: mockRoomStatus === "round_ended" ? "ended" : "discussing",
+        timer_duration_sec: 300,
+        timer_remaining_sec: 300,
+        timer_started_at: null,
+        timer_running: false,
+        description_turn: 1,
+        total_turns: 3,
+        created_at: "2026-11-21T00:00:00Z",
+        started_at: "2026-11-21T00:00:00Z",
+        ended_at: null,
+      },
       acknowledgements: [],
     },
   }),
@@ -75,10 +92,13 @@ vi.mock("../hooks/useRoomRealtime", () => ({
 
 vi.mock("../services/gameService", () => ({
   getRoundResults: (...args: unknown[]) => mockGetRoundResults(...args),
+  endDiscussion: (...args: unknown[]) => mockEndDiscussion(...args),
+  controlDiscussion: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock("../services/roomService", () => ({
   leaveRoom: vi.fn().mockResolvedValue(undefined),
+  claimHost: vi.fn().mockResolvedValue(undefined),
 }));
 
 const sampleResults: RoundResultsResponse = {
@@ -120,12 +140,13 @@ const sampleResults: RoundResultsResponse = {
   ],
 };
 
-function renderResultsRoute() {
+function renderRoomRoute(initialRoute: string) {
   return render(
     <AppSettingsProvider>
       <AvatarCatalogProvider>
-        <MemoryRouter initialEntries={["/room/test-room/results"]}>
+        <MemoryRouter initialEntries={[initialRoute]}>
           <Routes>
+            <Route path="/room/:roomId/play" element={<GameStartedPage />} />
             <Route path="/room/:roomId/results" element={<RoundResultsPage />} />
             <Route path="/room/:roomId/next" element={<div>MÀN HÌNH CHỜ VÁN TIẾP THEO</div>} />
           </Routes>
@@ -137,15 +158,44 @@ function renderResultsRoute() {
 
 describe("Màn hình Kết Quả Ván Đấu (RoundResultsPage)", () => {
   beforeEach(() => {
+    mockRoomStatus = "round_ended";
     mockGetRoundResults.mockReset();
     mockGetRoundResults.mockResolvedValue(sampleResults);
+    mockEndDiscussion.mockReset();
+    mockEndDiscussion.mockImplementation(async () => {
+      mockRoomStatus = "round_ended";
+      return { status: "round_ended" };
+    });
   });
 
-  it("Hiển thị cặp từ khóa, vạch mặt Gián điệp/Mr. White, từ khóa của từng người chơi và chuyển sang NextRoundPage", async () => {
-    renderResultsRoute();
+  it("Chủ phòng bấm KẾT THÚC VÁN ĐẤU đi thẳng vào /results chứ không bị đẩy sang /next", async () => {
+    mockRoomStatus = "discussing";
+    renderRoomRoute("/room/test-room/play");
+
+    const endBtn = screen.getByRole("button", { name: /KẾT THÚC VÁN ĐẤU/i });
+    fireEvent.click(endBtn);
 
     await waitFor(() => {
+      expect(mockEndDiscussion).toHaveBeenCalledWith("test-room");
       expect(screen.getByText("KẾT QUẢ VÁN ĐẤU")).toBeInTheDocument();
+    });
+    expect(screen.queryByText("MÀN HÌNH CHỜ VÁN TIẾP THEO")).not.toBeInTheDocument();
+
+    // Khi vừa mới vào /results trong thời gian settle guard, không nhảy nhầm qua /next
+    await waitFor(() => {
+      expect(screen.getByText(/CHI TIẾT TỪ KHÓA TỪNG NGƯỜI CHƠI \(3\)/i)).toBeInTheDocument();
+    });
+    const continueBtn = screen.getByRole("button", { name: /TIẾP TỤC CHỜ VÁN TIẾP THEO/i });
+    expect(continueBtn).toBeDisabled();
+    fireEvent.click(continueBtn);
+    expect(screen.queryByText("MÀN HÌNH CHỜ VÁN TIẾP THEO")).not.toBeInTheDocument();
+  });
+
+  it("Hiển thị cặp từ khóa, vạch mặt Gián điệp/Mr. White, từ khóa của từng người chơi và chuyển sang NextRoundPage khi nút sẵn sàng", async () => {
+    renderRoomRoute("/room/test-room/results");
+
+    await waitFor(() => {
+      expect(screen.getByText(/CHI TIẾT TỪ KHÓA TỪNG NGƯỜI CHƠI \(3\)/i)).toBeInTheDocument();
     });
 
     expect(mockGetRoundResults).toHaveBeenCalledWith("test-room");
@@ -163,7 +213,6 @@ describe("Màn hình Kết Quả Ván Đấu (RoundResultsPage)", () => {
     expect(screen.getByText("KHÔNG CÓ TỪ KHÓA (TRẮNG TỪ)")).toBeInTheDocument();
 
     // 3. Chi tiết từng người chơi + vai trò + từ khóa
-    expect(screen.getByText(/CHI TIẾT TỪ KHÓA TỪNG NGƯỜI CHƠI \(3\)/i)).toBeInTheDocument();
     expect(screen.getAllByText("MINH").length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText("LINH").length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText("AN")).toBeInTheDocument();
@@ -173,10 +222,10 @@ describe("Màn hình Kết Quả Ván Đấu (RoundResultsPage)", () => {
     expect(screen.getAllByText("MR. WHITE").length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText("TRẮNG TỪ")).toBeInTheDocument();
 
-    // 4. Bấm TIẾP TỤC CHỜ VÁN TIẾP THEO -> chuyển qua /room/:roomId/next
-    fireEvent.click(
-      screen.getByRole("button", { name: /TIẾP TỤC CHỜ VÁN TIẾP THEO/i })
-    );
+    // 4. Đợi hết settle guard rồi bấm TIẾP TỤC CHỜ VÁN TIẾP THEO -> chuyển qua /room/:roomId/next
+    const continueBtn = screen.getByRole("button", { name: /TIẾP TỤC CHỜ VÁN TIẾP THEO/i });
+    await waitFor(() => expect(continueBtn).not.toBeDisabled(), { timeout: 2000 });
+    fireEvent.click(continueBtn);
     expect(screen.getByText("MÀN HÌNH CHỜ VÁN TIẾP THEO")).toBeInTheDocument();
   });
 });

@@ -1,12 +1,12 @@
-// Service Worker tối giản hỗ trợ cài đặt PWA trên điện thoại.
-// KHÔNG cache các API Supabase hoặc Edge Functions để bảo đảm dữ liệu realtime luôn mới và an toàn.
-const CACHE_NAME = "dathoineee-spy-shell-v1";
+// Service Worker hỗ trợ cài đặt PWA trên điện thoại.
+// KHÔNG cache HTML/index.html, version.json hay API Supabase để người chơi luôn nhận bản build & dữ liệu realtime mới nhất.
+const CACHE_NAME = "dathoineee-spy-shell-v2";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
-      cache.addAll(["./", "./manifest.webmanifest", "./icons/icon-192.png"]).catch(() => {})
+      cache.addAll(["./manifest.webmanifest", "./icons/icon-192.png"]).catch(() => {})
     )
   );
 });
@@ -29,6 +29,22 @@ self.addEventListener("fetch", (event) => {
   ) {
     return;
   }
+
+  const isHtmlOrVersion =
+    event.request.mode === "navigate" ||
+    url.endsWith("/") ||
+    url.endsWith("/index.html") ||
+    url.includes("version.json");
+
+  if (isHtmlOrVersion) {
+    event.respondWith(
+      fetch(new Request(event.request, { cache: "no-store" })).catch(() =>
+        caches.match(event.request)
+      )
+    );
+    return;
+  }
+
   event.respondWith(
     fetch(event.request).catch(() => caches.match(event.request))
   );

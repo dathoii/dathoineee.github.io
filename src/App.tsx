@@ -1,5 +1,6 @@
-import React from "react";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { checkForAppUpdate } from "./utils/versionCheck";
 import { AppSettingsProvider } from "./contexts/AppSettingsContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AvatarCatalogProvider } from "./contexts/AvatarCatalogContext";
@@ -35,12 +36,33 @@ export const AppRoutes: React.FC = () => (
   </Routes>
 );
 
+const VersionSyncWatcher: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    void checkForAppUpdate();
+  }, [pathname]);
+
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        void checkForAppUpdate();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
+  return null;
+};
+
 export const App: React.FC = () => {
   return (
     <AppSettingsProvider>
       <AuthProvider>
         <AvatarCatalogProvider>
           <HashRouter>
+            <VersionSyncWatcher />
             <ToastContainer />
             <AppRoutes />
           </HashRouter>

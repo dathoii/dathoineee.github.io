@@ -59,6 +59,7 @@ export const RoundResultsPage: React.FC = () => {
   const [loadingResults, setLoadingResults] = useState(true);
   const [resultsError, setResultsError] = useState<string | null>(null);
   const [leaveOpen, setLeaveOpen] = useState(false);
+  const [readyToContinue, setReadyToContinue] = useState(false);
   const hasDataRef = useRef(false);
 
   const room = snapshot?.room;
@@ -104,6 +105,17 @@ export const RoundResultsPage: React.FC = () => {
     }
   }, [roomId, roomStatus, loadResults]);
 
+  useEffect(() => {
+    if (loadingResults || (!data && !resultsError)) {
+      setReadyToContinue(false);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setReadyToContinue(true);
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [loadingResults, data, resultsError]);
+
   const spies = useMemo(
     () =>
       (data?.results ?? []).filter(
@@ -113,7 +125,7 @@ export const RoundResultsPage: React.FC = () => {
   );
 
   const handleContinueToNext = () => {
-    if (!roomId) return;
+    if (!roomId || !readyToContinue) return;
     feedback("tap");
     navigate(`/room/${roomId}/next`, { replace: true });
   };
@@ -157,7 +169,7 @@ export const RoundResultsPage: React.FC = () => {
 
       <div className="chibi-card relative px-3.5 pt-4 pb-6 mb-6 space-y-3.5">
         {loadingResults ? (
-          <div className="py-10 text-center font-display font-extrabold text-base text-[#4A1D12]">
+          <div className="min-h-[260px] flex items-center justify-center py-10 text-center font-display font-extrabold text-base text-[#4A1D12]">
             🔍 ĐANG MỞ HỒ SƠ GIÁN ĐIỆP...
           </div>
         ) : resultsError ? (
@@ -247,9 +259,9 @@ export const RoundResultsPage: React.FC = () => {
                     return (
                       <div
                         key={spy.player_id}
-                        className="bg-white/95 border-2 border-[#552416] rounded-2xl p-2.5 flex items-center gap-3 overflow-visible"
+                        className="bg-white/95 border-2 border-[#552416] rounded-2xl p-2.5 flex items-center gap-4 overflow-visible"
                       >
-                        <div className="shrink-0 overflow-visible pl-1">
+                        <div className="shrink-0 overflow-visible pl-2">
                           <LayeredAvatar
                             config={resolvePlayerAvatarConfig(syncedPlayer)}
                             size={48}
@@ -305,11 +317,11 @@ export const RoundResultsPage: React.FC = () => {
                   return (
                     <div
                       key={item.player_id}
-                      className={`${meta.cardBg} border-[2.5px] border-[#552416] rounded-2xl px-2.5 py-2 flex items-center gap-3 overflow-visible shadow-[0_3px_0_rgba(85,36,22,0.16)] ${
+                      className={`${meta.cardBg} border-[2.5px] border-[#552416] rounded-2xl px-3 py-2 flex items-center gap-4 overflow-visible shadow-[0_3px_0_rgba(85,36,22,0.16)] ${
                         isMe ? "ring-2 ring-[#552416]" : ""
                       }`}
                     >
-                      <div className="shrink-0 overflow-visible pl-0.5">
+                      <div className="shrink-0 overflow-visible pl-2">
                         <LayeredAvatar
                           config={resolvePlayerAvatarConfig(syncedPlayer)}
                           size={44}
@@ -352,18 +364,25 @@ export const RoundResultsPage: React.FC = () => {
         ) : null}
 
         {/* NÚT TIẾP TỤC QUAY LẠI MÀN HÌNH CHỜ VÒNG TIẾP THEO */}
-        <button
-          type="button"
-          onClick={handleContinueToNext}
-          className="chibi-btn btn-mint w-full text-lg sm:text-xl py-3"
-        >
-          <span>TIẾP TỤC CHỜ VÁN TIẾP THEO</span>
-          <ArrowRight className="w-5 h-5 stroke-[2.8]" />
-        </button>
+        {!loadingResults ? (
+          <>
+            <button
+              type="button"
+              disabled={!readyToContinue}
+              onClick={handleContinueToNext}
+              className={`chibi-btn btn-mint w-full text-lg sm:text-xl py-3 ${
+                !readyToContinue ? "opacity-70 cursor-wait" : ""
+              }`}
+            >
+              <span>TIẾP TỤC CHỜ VÁN TIẾP THEO</span>
+              <ArrowRight className="w-5 h-5 stroke-[2.8]" />
+            </button>
 
-        <div className="text-center text-[11px] font-bold opacity-80">
-          Chủ phòng hoặc bạn có thể xem kết quả xong rồi bấm tiếp tục để chuẩn bị ván mới!
-        </div>
+            <div className="text-center text-[11px] font-bold opacity-80">
+              Chủ phòng hoặc bạn có thể xem kết quả xong rồi bấm tiếp tục để chuẩn bị ván mới!
+            </div>
+          </>
+        ) : null}
       </div>
 
       <ConfirmDialog
