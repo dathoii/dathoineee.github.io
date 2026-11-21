@@ -11,6 +11,7 @@ import {
   DEFAULT_AVATAR_CONFIG,
   FALLBACK_AVATAR_ASSETS,
   normalizeAvatarConfig,
+  resolveAssetImageUrl,
 } from "../utils/avatars";
 
 function renderAt(route: string) {
@@ -133,7 +134,7 @@ describe("Giao diện AI LÀ GIÁN ĐIỆP – DATHOINEEE", () => {
       partialCatalog
     );
 
-    expect(normalized.avatarId).toBe("avatar-dino");
+    expect(normalized.avatarId).toBe("avatar_01");
     expect(normalized.headId).toBe("head-crown");
     expect(normalized.wingsId).toBeNull();
     expect(normalized.effectsId).toBe("effect-sparkles");
@@ -205,5 +206,68 @@ describe("Giao diện AI LÀ GIÁN ĐIỆP – DATHOINEEE", () => {
     );
     expect(screen.getByText(/TÙY CHỈNH AVATAR/i)).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: /HEAD/i })).toBeInTheDocument();
+  });
+
+  it("Kho tài nguyên có đủ 8 avatar tham chiếu mới + >= 20 phụ kiện ở 4 nhóm và resolve sạch URL", () => {
+    const avatars = FALLBACK_AVATAR_ASSETS.filter((a) => a.category === "avatar");
+    const heads = FALLBACK_AVATAR_ASSETS.filter((a) => a.category === "head");
+    const wings = FALLBACK_AVATAR_ASSETS.filter((a) => a.category === "wings");
+    const effects = FALLBACK_AVATAR_ASSETS.filter((a) => a.category === "effects");
+    const others = FALLBACK_AVATAR_ASSETS.filter((a) => a.category === "other");
+
+    for (let i = 1; i <= 8; i++) {
+      expect(avatars.some((a) => a.id === `avatar_0${i}`)).toBe(true);
+    }
+    expect(heads.length).toBeGreaterThanOrEqual(5);
+    expect(wings.length).toBeGreaterThanOrEqual(5);
+    expect(effects.length).toBeGreaterThanOrEqual(5);
+    expect(others.length).toBeGreaterThanOrEqual(5);
+
+    const totalAccessories =
+      heads.length + wings.length + effects.length + others.length;
+    expect(totalAccessories).toBeGreaterThanOrEqual(20);
+
+    for (const item of FALLBACK_AVATAR_ASSETS) {
+      const resolved = resolveAssetImageUrl(item.image_url);
+      expect(resolved).toBeTruthy();
+      expect(resolved).not.toContain("builtin:");
+    }
+  });
+
+  it("Popup hỗ trợ tháo phụ kiện (KHÔNG SỬ DỤNG), RESET về mặc định và CANCEL giữ nguyên", () => {
+    const onConfirm = vi.fn();
+    const onClose = vi.fn();
+    render(
+      <AppSettingsProvider>
+        <AvatarCatalogProvider>
+          <AvatarCustomizationModal
+            open
+            initialConfig={{
+              avatarId: "avatar_06",
+              headId: "head_03_witch_hat",
+              wingsId: "wings_05_rainbow",
+              effectsId: "effects_01_halo",
+              otherIds: ["other_04_ghost_pet"],
+            }}
+            onClose={onClose}
+            onConfirm={onConfirm}
+          />
+        </AvatarCatalogProvider>
+      </AppSettingsProvider>
+    );
+
+    // Tháo phụ kiện ở tab HEAD bằng nút KHÔNG SỬ DỤNG
+    fireEvent.click(screen.getByRole("tab", { name: /HEAD/i }));
+    fireEvent.click(screen.getByRole("button", { name: /KHÔNG SỬ DỤNG/i }));
+
+    // Bấm RESET để quay về DEFAULT_AVATAR_CONFIG
+    fireEvent.click(screen.getByRole("button", { name: /RESET/i }));
+    fireEvent.click(screen.getByRole("button", { name: /CONFIRM/i }));
+    expect(onConfirm).toHaveBeenCalledWith(DEFAULT_AVATAR_CONFIG);
+
+    // Bấm CANCEL không gọi onConfirm lần nữa
+    fireEvent.click(screen.getByRole("button", { name: /CANCEL/i }));
+    expect(onClose).toHaveBeenCalled();
+    expect(onConfirm).toHaveBeenCalledTimes(1);
   });
 });

@@ -22,7 +22,7 @@ export const AvatarSelector: React.FC<AvatarSelectorProps> = ({
   roomId,
 }) => {
   const { assets } = useAvatarCatalog();
-  const { feedback, showToast } = useAppSettings();
+  const { feedback, showToast, saveAvatarConfigPref } = useAppSettings();
   const [popupOpen, setPopupOpen] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -39,6 +39,7 @@ export const AvatarSelector: React.FC<AvatarSelectorProps> = ({
       const saved = await savePlayerAvatarConfig(nextConfig, roomId).catch(
         () => nextConfig
       );
+      saveAvatarConfigPref(saved);
       onChangeConfig(saved);
       setPopupOpen(false);
       showToast("Đã cập nhật diện mạo avatar!", "success");
@@ -54,10 +55,12 @@ export const AvatarSelector: React.FC<AvatarSelectorProps> = ({
       setPopupOpen(true);
       return;
     }
-    onChangeConfig({
+    const next = {
       ...selectedConfig,
       avatarId: id,
-    });
+    };
+    saveAvatarConfigPref(next);
+    onChangeConfig(next);
   };
 
   return (

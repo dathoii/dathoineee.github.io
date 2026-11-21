@@ -11,6 +11,21 @@ import { FALLBACK_AVATAR_ASSETS } from "../utils/avatars";
 const MAX_UPLOAD_BYTES = 2 * 1024 * 1024; // 2MB
 const ALLOWED_MIME_TYPES = new Set(["image/png", "image/webp"]);
 
+const MANIFEST_ORDER = new Map(
+  FALLBACK_AVATAR_ASSETS.map((item, idx) => [item.id, idx])
+);
+
+export function sortCatalogAssets(items: AvatarAsset[]): AvatarAsset[] {
+  return [...items].sort((a, b) => {
+    const ia = MANIFEST_ORDER.get(a.id);
+    const ib = MANIFEST_ORDER.get(b.id);
+    if (ia !== undefined && ib !== undefined) return ia - ib;
+    if (ia !== undefined) return -1;
+    if (ib !== undefined) return 1;
+    return a.created_at.localeCompare(b.created_at);
+  });
+}
+
 export async function fetchPublicAvatarAssets(): Promise<AvatarAsset[]> {
   if (!isSupabaseConfigured || !supabase) {
     return FALLBACK_AVATAR_ASSETS;
@@ -26,7 +41,7 @@ export async function fetchPublicAvatarAssets(): Promise<AvatarAsset[]> {
     return FALLBACK_AVATAR_ASSETS;
   }
 
-  return data.map(coerceAvatarAsset);
+  return sortCatalogAssets(data.map(coerceAvatarAsset));
 }
 
 export function coerceAvatarAsset(row: Record<string, unknown>): AvatarAsset {
@@ -94,7 +109,7 @@ export async function adminListAvatarAssets(): Promise<AvatarAsset[]> {
     { action: "list" },
     { requireExistingAuth: true }
   );
-  return (res.items ?? []).map(coerceAvatarAsset);
+  return sortCatalogAssets((res.items ?? []).map(coerceAvatarAsset));
 }
 
 export interface CreateAvatarAssetInput {

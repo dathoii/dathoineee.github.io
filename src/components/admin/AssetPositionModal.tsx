@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { RotateCcw, Save } from "lucide-react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Move, RotateCcw, Save } from "lucide-react";
 import { Modal } from "../common/Modal";
 import { LayeredAvatar } from "../avatar/LayeredAvatar";
 import { useAppSettings } from "../../contexts/AppSettingsContext";
@@ -29,6 +29,13 @@ export const AssetPositionModal: React.FC<AssetPositionModalProps> = ({
   const [zIndex, setZIndex] = useState(30);
   const [sampleAvatarId, setSampleAvatarId] = useState("avatar-dino");
   const [saving, setSaving] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const dragOriginRef = useRef<{
+    clientX: number;
+    clientY: number;
+    startX: number;
+    startY: number;
+  } | null>(null);
 
   const sampleAvatars = useMemo(
     () => allAssets.filter((a) => a.category === "avatar" && a.enabled),
@@ -129,10 +136,51 @@ export const AssetPositionModal: React.FC<AssetPositionModalProps> = ({
     >
       {asset ? (
         <form onSubmit={handleSave} className="space-y-3 text-sm font-bold">
-          {/* Khu vực xem trước real-time ở cả kích thước lớn & nhỏ */}
+          {/* Khu vực xem trước real-time + kéo thả trực tiếp trên avatar mẫu */}
           <div className="bg-gradient-to-b from-[#BCEBFF] via-[#E4F7FE] to-[#FFE7B6] border-[2.5px] border-[#552416] rounded-2xl p-4 flex items-center justify-around gap-4 overflow-visible">
             <div className="flex flex-col items-center gap-1.5 overflow-visible">
-              <div className="pt-4 pb-2 px-6 overflow-visible">
+              <div
+                onPointerDown={(e) => {
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                  setDragging(true);
+                  dragOriginRef.current = {
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                    startX: posX,
+                    startY: posY,
+                  };
+                }}
+                onPointerMove={(e) => {
+                  if (!dragOriginRef.current) return;
+                  const dxPct = Math.round(
+                    ((e.clientX - dragOriginRef.current.clientX) / 104) * 100
+                  );
+                  const dyPct = Math.round(
+                    ((e.clientY - dragOriginRef.current.clientY) / 104) * 100
+                  );
+                  setPosX(
+                    Math.max(-150, Math.min(150, dragOriginRef.current.startX + dxPct))
+                  );
+                  setPosY(
+                    Math.max(-150, Math.min(150, dragOriginRef.current.startY + dyPct))
+                  );
+                }}
+                onPointerUp={() => {
+                  dragOriginRef.current = null;
+                  setDragging(false);
+                }}
+                onPointerCancel={() => {
+                  dragOriginRef.current = null;
+                  setDragging(false);
+                }}
+                style={{ touchAction: "none" }}
+                className={`pt-4 pb-2 px-6 overflow-visible rounded-2xl border-2 border-dashed transition-colors select-none ${
+                  dragging
+                    ? "border-[#166A45] bg-white/40 cursor-grabbing"
+                    : "border-[#552416]/35 hover:border-[#552416]/70 cursor-grab"
+                }`}
+                title="Nhấn giữ và kéo trực tiếp để di chuyển vật phẩm"
+              >
                 <LayeredAvatar
                   config={previewConfig}
                   size={104}
@@ -140,8 +188,9 @@ export const AssetPositionModal: React.FC<AssetPositionModalProps> = ({
                   assetOverrides={overrides}
                 />
               </div>
-              <span className="text-[11px] font-extrabold text-[#552416]">
-                XEM TRƯỚC LỚN (104px)
+              <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-[#552416]">
+                <Move className="w-3 h-3" />
+                KÉO THẢ HOẶC KÉO THANH TRƯỢT (104px)
               </span>
             </div>
 
